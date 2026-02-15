@@ -16,4 +16,6 @@
   },
 
   "eslint.useFlatConfig": true,
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }
