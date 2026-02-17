@@ -5,11 +5,11 @@ import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 import z from 'zod'
 
-const accessTokenSchema = z.object({
+const accessTokenPayloadSchema = z.object({
   sub: z.uuid(),
 })
 
-export type AccessTokenDTO = z.infer<typeof accessTokenSchema>
+export type AccessTokenPayloadDTO = z.infer<typeof accessTokenPayloadSchema>
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -24,7 +24,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     })
   }
 
-  validate(payload: AccessTokenDTO) {
-    return accessTokenSchema.parse(payload)
+  validate(payload: AccessTokenPayloadDTO) {
+    return accessTokenPayloadSchema.parse(payload)
   }
 }

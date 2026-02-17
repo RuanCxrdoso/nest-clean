@@ -1,4 +1,6 @@
 import { JwtAuthGuard } from '@/auth/jwt-auth.guard'
+import { type AccessTokenPayloadDTO } from '@/auth/jwt.strategy'
+import { User } from '@/auth/user-decorator'
 import { ZodValidationPipe } from '@/pipes/zod-validation-pipe'
 import { PrismaService } from '@/prisma/prisma.service'
 import {
@@ -26,9 +28,9 @@ export class CreateQuestionController {
   @Post()
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(createQuestionBodySchema))
-  handle(@Body() body: createQuestionDTO) {
+  handle(@Body() body: createQuestionDTO, @User() user: AccessTokenPayloadDTO) {
     console.log('🚀 ~ CreateQuestionController ~ handle ~ body:', body)
-
+    console.log(user.sub)
     return 'ok'
   }
 }
