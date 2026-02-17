@@ -6,6 +6,8 @@ export const envSchema = z.object({
   POSTGRES_DB: z.string(),
   DATABASE_URL: z.string(),
   PORT: z.coerce.number().optional().default(3333),
+  JWT_PRIVATE_KEY: z.string(),
+  JWT_PUBLIC_KEY: z.string(),
   NODE_ENV: z
     .enum(['production', 'development', 'test'])
     .default('development'),
