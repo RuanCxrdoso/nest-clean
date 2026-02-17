@@ -3,14 +3,7 @@ import { type AccessTokenPayloadDTO } from '@/auth/jwt.strategy'
 import { User } from '@/auth/user-decorator'
 import { ZodValidationPipe } from '@/pipes/zod-validation-pipe'
 import { PrismaService } from '@/prisma/prisma.service'
-import {
-  Body,
-  Controller,
-  HttpCode,
-  Post,
-  UseGuards,
-  UsePipes,
-} from '@nestjs/common'
+import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common'
 import z from 'zod'
 
 const createQuestionBodySchema = z.object({
@@ -19,6 +12,7 @@ const createQuestionBodySchema = z.object({
 })
 
 export type createQuestionDTO = z.infer<typeof createQuestionBodySchema>
+const zodValidationPipe = new ZodValidationPipe(createQuestionBodySchema)
 
 @Controller('/question')
 @UseGuards(JwtAuthGuard)
@@ -27,9 +21,8 @@ export class CreateQuestionController {
 
   @Post()
   @HttpCode(201)
-  @UsePipes(new ZodValidationPipe(createQuestionBodySchema))
   async handle(
-    @Body() body: createQuestionDTO,
+    @Body(zodValidationPipe) body: createQuestionDTO,
     @User() user: AccessTokenPayloadDTO,
   ) {
     const { title, content } = body
