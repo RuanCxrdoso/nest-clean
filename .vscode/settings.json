@@ -1,6 +1,6 @@
 {
-  "javascript.validate.enable": false,
-  "typescript.validate.enable": false,
+  "javascript.validate.enable": true,
+  "typescript.validate.enable": true,
 
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
@@ -16,4 +16,6 @@
   },
 
   "eslint.useFlatConfig": true,
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }
