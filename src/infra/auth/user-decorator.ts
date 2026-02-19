@@ -1,4 +1,4 @@
-import { AccessTokenPayloadDTO } from '@/auth/jwt.strategy'
+import { AccessTokenPayloadDTO } from '@/infra/auth/jwt.strategy'
 import { createParamDecorator, ExecutionContext } from '@nestjs/common'
 
 export const User = createParamDecorator((_: never, ctx: ExecutionContext) => {

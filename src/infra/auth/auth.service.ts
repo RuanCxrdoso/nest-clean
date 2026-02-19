@@ -1,4 +1,4 @@
-import { authDTO } from '@/controllers/auth.controller'
+import { authDTO } from '@/infra/http/controllers/auth.controller'
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { randomUUID } from 'node:crypto'

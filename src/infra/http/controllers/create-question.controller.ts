@@ -1,8 +1,8 @@
-import { JwtAuthGuard } from '@/auth/jwt-auth.guard'
-import { type AccessTokenPayloadDTO } from '@/auth/jwt.strategy'
-import { User } from '@/auth/user-decorator'
-import { ZodValidationPipe } from '@/pipes/zod-validation-pipe'
-import { PrismaService } from '@/prisma/prisma.service'
+import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
+import { type AccessTokenPayloadDTO } from '@/infra/auth/jwt.strategy'
+import { User } from '@/infra/auth/user-decorator'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
+import { PrismaService } from '@/infra/prisma/prisma.service'
 import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common'
 import z from 'zod'
 
