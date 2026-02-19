@@ -1,4 +1,4 @@
-import { PrismaService } from '@/infra/prisma/prisma.service'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
@@ -11,7 +11,7 @@ describe('Fetch Recent Questions [E2E]', () => {
 
   beforeAll(async () => {
     const { AppModule } = await import('@/infra/app.module.js')
-    const { PrismaService } = await import('@/infra/prisma/prisma.service.js')
+    const { PrismaService } = await import('@/infra/database/prisma/prisma.service.js')
     const { JwtService } = await import('@nestjs/jwt')
 
     const moduleRef = await Test.createTestingModule({
