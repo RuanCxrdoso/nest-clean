@@ -13,9 +13,6 @@ export class InMemoryQuestionRepository implements IQuestionRepository {
 
   async create(question: Question) {
     this.questions.push(question)
-
-    // this.questionAttachmentsRepository.createMany(question.attachments.getItems())
-    return question
   }
 
   async delete(question: Question) {
