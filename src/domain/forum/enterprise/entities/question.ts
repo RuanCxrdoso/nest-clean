@@ -14,7 +14,7 @@ export interface QuestionProps {
   title: string
   content: string
   createdAt: Date
-  updatedAt?: Date | null
+  updatedAt?: Date
 }
 
 export class Question extends AggregateRoot<QuestionProps> {

@@ -11,14 +11,9 @@ export class PrismaQuestionRepository implements IQuestionRepository {
 
   async create(question: Question): Promise<void> {
     // TODO: If exists, create all related attachments.
+    const data = PrismaQuestionMapper.toPrisma(question)
     await this.prisma.question.create({
-      data: {
-        id: question.id.toString(),
-        authorId: question.authorId.toString(),
-        title: question.title,
-        content: question.content,
-        slug: question.slug.value,
-      },
+      data,
     })
   }
 
@@ -32,16 +27,13 @@ export class PrismaQuestionRepository implements IQuestionRepository {
   }
 
   async save(question: Question): Promise<void> {
+    const data = PrismaQuestionMapper.toPrisma(question)
+
     await this.prisma.question.update({
       where: {
         id: question.id.toString(),
       },
-      data: {
-        authorId: question.authorId.toString(),
-        title: question.title,
-        content: question.content,
-        slug: question.slug.value,
-      },
+      data,
     })
   }
 
