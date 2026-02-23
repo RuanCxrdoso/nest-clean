@@ -1,6 +1,7 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { IQuestionRepository } from '@/domain/forum/application/repositories/question-repository'
 import { Question } from '@/domain/forum/enterprise/entities/question'
+import { PrismaQuestionMapper } from '@/infra/database/prisma/mappers/prisma-question-mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
 
@@ -45,18 +46,46 @@ export class PrismaQuestionRepository implements IQuestionRepository {
   }
 
   async findBySlug(slug: string): Promise<Question | null> {
-    const question = await this.prisma.question.findFirst({
+    const question = await this.prisma.question.findUnique({
       where: {
         slug,
       },
     })
 
-    return question // Fazer Mappers para criação da entidades
+    if (!question) return null
+
+    return PrismaQuestionMapper.toDomain(question)
   }
-  findById(id: string): Promise<Question | null> {
-    throw new Error('Method not implemented.')
+
+  async findById(id: string): Promise<Question | null> {
+    const question = await this.prisma.question.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    if (!question) return null
+
+    return PrismaQuestionMapper.toDomain(question)
   }
-  findManyRecent({ page }: PaginationParams): Promise<Question[]> {
-    throw new Error('Method not implemented.')
+
+  async findManyRecent({ page }: PaginationParams): Promise<Question[]> {
+    const itemsPerPage = 20
+    const take = itemsPerPage
+    const skip = (page - 1) * itemsPerPage
+
+    const questionsRaw = await this.prisma.question.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take,
+      skip,
+    })
+
+    const questions = questionsRaw.map((question) =>
+      PrismaQuestionMapper.toDomain(question),
+    )
+
+    return questions
   }
 }
