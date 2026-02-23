@@ -4,6 +4,7 @@ import { Question } from '../../enterprise/entities/question.js'
 import { right, type Either } from '@/core/either.js'
 import { QuestionAttachment } from '../../enterprise/entities/question-attachment.js'
 import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list.js'
+import { Injectable } from '@nestjs/common'
 
 interface CreateQuestionUseCaseRequest {
   authorId: string
@@ -18,7 +19,8 @@ type CreateQuestionUseCaseResponse = Either<
     question: Question
   }
 >
-
+// Causa acoplamento da camada de dominio com a de infra, mas vale o tradeoff.
+@Injectable()
 export class CreateQuestionUseCase {
   constructor(private questionRepository: IQuestionRepository) {}
 
