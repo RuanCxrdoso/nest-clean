@@ -8,7 +8,7 @@ import { BestQuestionAnswerChooseEvent } from '../events/best-question-answer-ch
 
 export interface QuestionProps {
   authorId: UniqueEntityId
-  bestAnswerId?: UniqueEntityId | undefined
+  bestAnswerId?: UniqueEntityId | null
   attachments: QuestionAttachmentList
   slug: Slug
   title: string
@@ -22,7 +22,7 @@ export class Question extends AggregateRoot<QuestionProps> {
     return this.props.authorId
   }
 
-  get bestAnswerId(): UniqueEntityId | undefined {
+  get bestAnswerId(): UniqueEntityId | undefined | null {
     return this.props.bestAnswerId
   }
 
@@ -81,12 +81,8 @@ export class Question extends AggregateRoot<QuestionProps> {
     this.touch()
   }
 
-  set bestAnswerId(bestAnswerId: UniqueEntityId | undefined) {
-    if (bestAnswerId === undefined) return
-    if (
-      this.props.bestAnswerId === undefined ||
-      !this.props.bestAnswerId.equals(bestAnswerId)
-    ) {
+  set bestAnswerId(bestAnswerId: UniqueEntityId | undefined | null) {
+    if (bestAnswerId && this.props.bestAnswerId !== bestAnswerId) {
       const bestQuestionAnswerChooseEvent = new BestQuestionAnswerChooseEvent(
         this,
         bestAnswerId,
