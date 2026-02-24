@@ -9,7 +9,8 @@ describe('Create account [E2E]', () => {
 
   beforeAll(async () => {
     const { AppModule } = await import('../../app.module.js')
-    const { PrismaService } = await import('../../database/prisma/prisma.service.js')
+    const { PrismaService } =
+      await import('../../database/prisma/prisma.service.js')
 
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
