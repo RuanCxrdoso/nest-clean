@@ -12,6 +12,7 @@ const createQuestionBodySchema = z.object({
 })
 
 export type createQuestionDTO = z.infer<typeof createQuestionBodySchema>
+
 const zodValidationPipe = new ZodValidationPipe(createQuestionBodySchema)
 
 @Controller('/question')
