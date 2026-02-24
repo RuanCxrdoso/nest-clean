@@ -14,7 +14,7 @@ describe('CreateStudentUseCase unit tests', () => {
     sut = new CreateStudentUseCase(studentRepository, hashGenerator)
   })
 
-  it('should be able to createa a student', async () => {
+  it('should be able to create a student', async () => {
     const student = MakeStudent({
       name: 'Neymar da Silva Santos Jr',
     })
