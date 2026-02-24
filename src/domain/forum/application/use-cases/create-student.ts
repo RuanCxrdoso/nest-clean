@@ -1,7 +1,9 @@
 import { Either, left, right } from '@/core/either'
-import { NotAllowedError } from '@/core/errors/not-allowed-error'
+import { HashGenerator } from '@/domain/forum/application/cryptography/hash-generator'
 import { IStudentRepository } from '@/domain/forum/application/repositories/student-repository'
+import { StudentAlreadyExistsError } from '@/domain/forum/application/use-cases/errors/student-already-exists-error'
 import { Student } from '@/domain/forum/enterprise/entities/student'
+import { Injectable } from '@nestjs/common'
 
 interface CreateStudentUseCaseRequest {
   name: string
@@ -9,26 +11,35 @@ interface CreateStudentUseCaseRequest {
   password: string
 }
 
-type CreateStudentUseCaseResponse = Either<NotAllowedError, object>
+type CreateStudentUseCaseResponse = Either<
+  StudentAlreadyExistsError,
+  { student: Student }
+>
 
+@Injectable()
 export class CreateStudentUseCase {
-  constructor(private studentRepository: IStudentRepository) {}
+  constructor(
+    private studentRepository: IStudentRepository,
+    private hashGenerator: HashGenerator,
+  ) {}
 
   async execute({
     name,
     email,
     password,
   }: CreateStudentUseCaseRequest): Promise<CreateStudentUseCaseResponse> {
-    const result = await this.studentRepository.findByEmail(email)
+    const studentWithSameEmail = await this.studentRepository.findByEmail(email)
 
-    if (result) {
-      return left(new NotAllowedError())
+    if (studentWithSameEmail) {
+      return left(new StudentAlreadyExistsError(email))
     }
 
-    const student = Student.create({ name, email, password })
+    const passwordHash = await this.hashGenerator.hash(password)
+
+    const student = Student.create({ name, email, password: passwordHash })
 
     await this.studentRepository.create(student)
 
-    return right({})
+    return right({ student })
   }
 }
