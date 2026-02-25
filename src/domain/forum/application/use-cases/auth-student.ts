@@ -3,6 +3,7 @@ import { Encrypter } from '@/domain/forum/application/cryptography/encrypter'
 import { HashComparer } from '@/domain/forum/application/cryptography/hash-comparer'
 import { IStudentRepository } from '@/domain/forum/application/repositories/student-repository'
 import { InvalidCredentialsError } from '@/domain/forum/application/use-cases/errors/invalid-credentials-error'
+import { Injectable } from '@nestjs/common'
 
 interface AuthStudentUseCaseRequest {
   email: string
@@ -14,6 +15,7 @@ type AuthStudentUseCaseResponse = Either<
   { accessToken: string }
 >
 
+@Injectable()
 export class AuthStudentUseCase {
   constructor(
     private studentRepository: IStudentRepository,
