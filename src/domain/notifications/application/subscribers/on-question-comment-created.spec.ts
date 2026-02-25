@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { makeQuestion } from '../../../../../test/factories/make-question.js'
-import { InMemoryQuestionRepository } from '../../../../../test/repositories/in-memory-question-repository.js'
-import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repositories/in-memory-question-attachments-repository.js'
-import { makeQuestionComment } from '../../../../../test/factories/make-question-comment.js'
-import { InMemoryQuestionCommentRepository } from '../../../../../test/repositories/in-memory-question-comment-repository.js'
-import { SendNotificationUseCase } from '../use-cases/send-notification.js'
-import { InMemoryNotificationsRepository } from '../../../../../test/repositories/in-memory-notifications-repository.js'
-import { OnQuestionCommentCreated } from './on-question-comment-created.js'
+import { makeQuestion } from '../../../../../test/factories/make-question'
+import { InMemoryQuestionRepository } from '../../../../../test/repositories/in-memory-question-repository'
+import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repositories/in-memory-question-attachments-repository'
+import { makeQuestionComment } from '../../../../../test/factories/make-question-comment'
+import { InMemoryQuestionCommentRepository } from '../../../../../test/repositories/in-memory-question-comment-repository'
+import { SendNotificationUseCase } from '../use-cases/send-notification'
+import { InMemoryNotificationsRepository } from '../../../../../test/repositories/in-memory-notifications-repository'
+import { OnQuestionCommentCreated } from './on-question-comment-created'
 
 let questionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let questionsRepository: InMemoryQuestionRepository

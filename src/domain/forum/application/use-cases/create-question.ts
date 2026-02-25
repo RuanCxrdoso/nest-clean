@@ -1,9 +1,9 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
-import type { IQuestionRepository } from '../repositories/question-repository.js'
-import { Question } from '../../enterprise/entities/question.js'
-import { right, type Either } from '@/core/either.js'
-import { QuestionAttachment } from '../../enterprise/entities/question-attachment.js'
-import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list.js'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import type { IQuestionRepository } from '../repositories/question-repository'
+import { Question } from '../../enterprise/entities/question'
+import { right, type Either } from '@/core/either'
+import { QuestionAttachment } from '../../enterprise/entities/question-attachment'
+import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list'
 import { Injectable } from '@nestjs/common'
 
 interface CreateQuestionUseCaseRequest {

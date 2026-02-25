@@ -1,5 +1,5 @@
-import type { PaginationParams } from '@/core/repositories/pagination-params.js'
-import type { AnswerComment } from '../../enterprise/entities/answer-comment.js'
+import type { PaginationParams } from '@/core/repositories/pagination-params'
+import type { AnswerComment } from '../../enterprise/entities/answer-comment'
 
 export interface IAnswerCommentRepository {
   create: (answerComment: AnswerComment) => Promise<AnswerComment>

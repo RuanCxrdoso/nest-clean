@@ -1,4 +1,4 @@
-import { PrismaService } from '@/infra/database/prisma/prisma.service.js'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
@@ -8,9 +8,9 @@ describe('Create account [E2E]', () => {
   let prisma: PrismaService
 
   beforeAll(async () => {
-    const { AppModule } = await import('../../app.module.js')
+    const { AppModule } = await import('../../app.module')
     const { PrismaService } =
-      await import('../../database/prisma/prisma.service.js')
+      await import('../../database/prisma/prisma.service')
 
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],

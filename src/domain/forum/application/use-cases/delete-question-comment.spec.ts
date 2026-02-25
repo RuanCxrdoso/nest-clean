@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { InMemoryQuestionCommentRepository } from '../../../../../test/repositories/in-memory-question-comment-repository.js'
-import { DeleteQuestionCommentUseCase } from './delete-question-comment.js'
-import { makeQuestionComment } from '../../../../../test/factories/make-question-comment.js'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
-import { NotAllowedError } from '@/core/errors/not-allowed-error.js'
+import { InMemoryQuestionCommentRepository } from '../../../../../test/repositories/in-memory-question-comment-repository'
+import { DeleteQuestionCommentUseCase } from './delete-question-comment'
+import { makeQuestionComment } from '../../../../../test/factories/make-question-comment'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { NotAllowedError } from '@/core/errors/not-allowed-error'
 
 let questionCommentRespository: InMemoryQuestionCommentRepository
 let sut: DeleteQuestionCommentUseCase

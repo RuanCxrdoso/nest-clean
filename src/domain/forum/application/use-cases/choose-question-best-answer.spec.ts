@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { ChooseQuestionBestAnswerUseCase } from './choose-question-best-answer.js'
-import { InMemoryQuestionRepository } from '../../../../../test/repositories/in-memory-question-repository.js'
-import { InMemoryAnswersRepository } from '../../../../../test/repositories/in-memory-answers-repository.js'
-import { makeQuestion } from '../../../../../test/factories/make-question.js'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
-import { makeAnswer } from '../../../../../test/factories/make-answer.js'
-import { NotAllowedError } from '@/core/errors/not-allowed-error.js'
-import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repositories/in-memory-question-attachments-repository.js'
-import { InMemoryAnswerAttachmentsRepository } from '../../../../../test/repositories/in-memory-answer-attachments-repository.js'
+import { ChooseQuestionBestAnswerUseCase } from './choose-question-best-answer'
+import { InMemoryQuestionRepository } from '../../../../../test/repositories/in-memory-question-repository'
+import { InMemoryAnswersRepository } from '../../../../../test/repositories/in-memory-answers-repository'
+import { makeQuestion } from '../../../../../test/factories/make-question'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { makeAnswer } from '../../../../../test/factories/make-answer'
+import { NotAllowedError } from '@/core/errors/not-allowed-error'
+import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repositories/in-memory-question-attachments-repository'
+import { InMemoryAnswerAttachmentsRepository } from '../../../../../test/repositories/in-memory-answer-attachments-repository'
 
 let answerAttachmentRepository: InMemoryAnswerAttachmentsRepository
 let questionAttachmentRepository: InMemoryQuestionAttachmentsRepository

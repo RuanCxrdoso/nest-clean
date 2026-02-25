@@ -1,8 +1,8 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import {
   Notification,
   type NotificationProps,
-} from '@/domain/notifications/enterprise/entities/notification.js'
+} from '@/domain/notifications/enterprise/entities/notification'
 import { faker } from '@faker-js/faker'
 
 export function makeNotification(

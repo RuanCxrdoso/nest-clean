@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { DomainEvent } from './domain-event.js'
-import type { UniqueEntityId } from '../entities/unique-entity-id.js'
-import { AggregateRoot } from '../entities/aggregate-root.js'
-import { DomainEvents } from './domain-events.js'
+import type { DomainEvent } from './domain-event'
+import type { UniqueEntityId } from '../entities/unique-entity-id'
+import { AggregateRoot } from '../entities/aggregate-root'
+import { DomainEvents } from './domain-events'
 
 class CustomAggregateCreated implements DomainEvent {
   public ocurredAt: Date

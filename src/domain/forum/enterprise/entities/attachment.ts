@@ -1,5 +1,5 @@
-import { Entities } from '@/core/entities/entities.js'
-import type { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
+import { Entities } from '@/core/entities/entities'
+import type { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 export interface AttachmentProps {
   title: string

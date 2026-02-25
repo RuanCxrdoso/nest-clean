@@ -1,8 +1,8 @@
-import { InMemoryQuestionRepository } from '../../../../../test/repositories/in-memory-question-repository.js'
+import { InMemoryQuestionRepository } from '../../../../../test/repositories/in-memory-question-repository'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { CreateQuestionUseCase } from './create-question.js'
-import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repositories/in-memory-question-attachments-repository.js'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
+import { CreateQuestionUseCase } from './create-question'
+import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repositories/in-memory-question-attachments-repository'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 let questionRepository: InMemoryQuestionRepository
 let questionAttachmentsRepository: InMemoryQuestionAttachmentsRepository

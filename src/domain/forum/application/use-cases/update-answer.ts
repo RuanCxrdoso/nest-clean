@@ -1,12 +1,12 @@
-import { left, right, type Either } from '@/core/either.js'
-import type { Answer } from '../../enterprise/entities/answer.js'
-import type { IAnswersRepository } from '../repositories/answers-repository.js'
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error.js'
-import { NotAllowedError } from '@/core/errors/not-allowed-error.js'
-import type { IAnswerAttachmentsRepository } from '../repositories/answer-attachments-repository.js'
-import { AnswerAttachmentList } from '../../enterprise/entities/answer-attachment-list.js'
-import { AnswerAttachment } from '../../enterprise/entities/answer-attachment.js'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
+import { left, right, type Either } from '@/core/either'
+import type { Answer } from '../../enterprise/entities/answer'
+import type { IAnswersRepository } from '../repositories/answers-repository'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
+import { NotAllowedError } from '@/core/errors/not-allowed-error'
+import type { IAnswerAttachmentsRepository } from '../repositories/answer-attachments-repository'
+import { AnswerAttachmentList } from '../../enterprise/entities/answer-attachment-list'
+import { AnswerAttachment } from '../../enterprise/entities/answer-attachment'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 interface UpdateAnswerUseCaseRequest {
   authorId: string

@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { makeAnswer } from '../../../../../test/factories/make-answer.js'
-import { CommentOnAnswerUseCase } from './comment-on-answer.js'
-import { InMemoryAnswersRepository } from '../../../../../test/repositories/in-memory-answers-repository.js'
-import { InMemoryAnswerCommentRepository } from '../../../../../test/repositories/in-memory-answer-comment-repository.js'
-import { InMemoryAnswerAttachmentsRepository } from '../../../../../test/repositories/in-memory-answer-attachments-repository.js'
+import { makeAnswer } from '../../../../../test/factories/make-answer'
+import { CommentOnAnswerUseCase } from './comment-on-answer'
+import { InMemoryAnswersRepository } from '../../../../../test/repositories/in-memory-answers-repository'
+import { InMemoryAnswerCommentRepository } from '../../../../../test/repositories/in-memory-answer-comment-repository'
+import { InMemoryAnswerAttachmentsRepository } from '../../../../../test/repositories/in-memory-answer-attachments-repository'
 
 let answerAttachmentRepository: InMemoryAnswerAttachmentsRepository
 let answerRepository: InMemoryAnswersRepository

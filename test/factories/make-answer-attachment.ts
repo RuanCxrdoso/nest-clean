@@ -1,8 +1,8 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import {
   AnswerAttachment,
   type AnswerAttachmentProps,
-} from '@/domain/forum/enterprise/entities/answer-attachment.js'
+} from '@/domain/forum/enterprise/entities/answer-attachment'
 
 export function makeAnswerAttachment(
   override: Partial<AnswerAttachmentProps>,

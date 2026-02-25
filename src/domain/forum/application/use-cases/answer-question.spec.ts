@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { Instructor } from '../../enterprise/entities/instructor.js'
-import { Student } from '../../enterprise/entities/student.js'
-import { Question } from '../../enterprise/entities/question.js'
-import { AnswerQuestionUseCase } from './answer-question.js'
-import { InMemoryAnswersRepository } from '../../../../../test/repositories/in-memory-answers-repository.js'
-import { Slug } from '../../enterprise/entities/value-objects/slug.js'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
-import { InMemoryAnswerAttachmentsRepository } from '../../../../../test/repositories/in-memory-answer-attachments-repository.js'
+import { Instructor } from '../../enterprise/entities/instructor'
+import { Question } from '../../enterprise/entities/question'
+import { AnswerQuestionUseCase } from './answer-question'
+import { InMemoryAnswersRepository } from '../../../../../test/repositories/in-memory-answers-repository'
+import { Slug } from '../../enterprise/entities/value-objects/slug'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { InMemoryAnswerAttachmentsRepository } from '../../../../../test/repositories/in-memory-answer-attachments-repository'
+import { MakeStudent } from 'test/factories/make-student'
 
 let answerAttachmentRepository: InMemoryAnswerAttachmentsRepository
 let answerRepository: InMemoryAnswersRepository
@@ -19,7 +19,7 @@ describe('Answer question tests', () => {
 
   it('should be able to answer a question', async () => {
     const instructor = Instructor.create({ name: 'Ruan' })
-    const student = Student.create({ name: 'Neymar' })
+    const student = MakeStudent({ name: 'Neymar' })
 
     const question = Question.create({
       title: 'Triceps',

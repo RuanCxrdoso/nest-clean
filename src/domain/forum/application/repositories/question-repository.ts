@@ -1,5 +1,5 @@
-import type { PaginationParams } from '@/core/repositories/pagination-params.js'
-import type { Question } from '../../enterprise/entities/question.js'
+import type { PaginationParams } from '@/core/repositories/pagination-params'
+import type { Question } from '../../enterprise/entities/question'
 
 export abstract class IQuestionRepository {
   abstract create: (question: Question) => Promise<void>

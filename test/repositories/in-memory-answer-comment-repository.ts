@@ -1,6 +1,6 @@
-import type { PaginationParams } from '@/core/repositories/pagination-params.js'
-import type { IAnswerCommentRepository } from '@/domain/forum/application/repositories/answer-comment-repository.js'
-import type { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment.js'
+import type { PaginationParams } from '@/core/repositories/pagination-params'
+import type { IAnswerCommentRepository } from '@/domain/forum/application/repositories/answer-comment-repository'
+import type { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment'
 
 export class InMemoryAnswerCommentRepository implements IAnswerCommentRepository {
   public answerComments: AnswerComment[] = []

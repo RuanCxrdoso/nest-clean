@@ -1,7 +1,7 @@
-import { left, right, type Either } from '@/core/either.js'
-import type { IQuestionCommentRepository } from '../repositories/question-comment-repository.js'
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error.js'
-import { NotAllowedError } from '@/core/errors/not-allowed-error.js'
+import { left, right, type Either } from '@/core/either'
+import type { IQuestionCommentRepository } from '../repositories/question-comment-repository'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
+import { NotAllowedError } from '@/core/errors/not-allowed-error'
 
 interface DeleteQuestionCommentUseCaseRequest {
   authorId: string

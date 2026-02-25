@@ -1,12 +1,12 @@
-import { left, right, type Either } from '@/core/either.js'
-import type { Question } from '../../enterprise/entities/question.js'
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error.js'
-import { NotAllowedError } from '@/core/errors/not-allowed-error.js'
-import { QuestionAttachment } from '../../enterprise/entities/question-attachment.js'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
-import type { IQuestionAttachmentsRepository } from '../repositories/question-attachments-repository.js'
-import type { IQuestionRepository } from '../repositories/question-repository.js'
-import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list.js'
+import { left, right, type Either } from '@/core/either'
+import type { Question } from '../../enterprise/entities/question'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
+import { NotAllowedError } from '@/core/errors/not-allowed-error'
+import { QuestionAttachment } from '../../enterprise/entities/question-attachment'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import type { IQuestionAttachmentsRepository } from '../repositories/question-attachments-repository'
+import type { IQuestionRepository } from '../repositories/question-repository'
+import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list'
 
 interface UpdateQuestionUseCaseRequest {
   authorId: string

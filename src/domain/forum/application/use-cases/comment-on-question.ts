@@ -1,9 +1,9 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
-import type { IQuestionRepository } from '../repositories/question-repository.js'
-import { QuestionComment } from '../../enterprise/entities/question-comment.js'
-import type { IQuestionCommentRepository } from '../repositories/question-comment-repository.js'
-import { left, right, type Either } from '@/core/either.js'
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error.js'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import type { IQuestionRepository } from '../repositories/question-repository'
+import { QuestionComment } from '../../enterprise/entities/question-comment'
+import type { IQuestionCommentRepository } from '../repositories/question-comment-repository'
+import { left, right, type Either } from '@/core/either'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 
 interface CommentOnQuestionUseCaseRequest {
   authorId: string

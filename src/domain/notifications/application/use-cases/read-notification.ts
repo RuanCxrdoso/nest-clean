@@ -1,7 +1,7 @@
-import { left, right, type Either } from '@/core/either.js'
-import type { INotificationsRepository } from '../repositories/notifications-repository.js'
-import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error.js'
-import { NotAllowedError } from '@/core/errors/not-allowed-error.js'
+import { left, right, type Either } from '@/core/either'
+import type { INotificationsRepository } from '../repositories/notifications-repository'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
+import { NotAllowedError } from '@/core/errors/not-allowed-error'
 
 interface ReadNoticationUseCaseRequest {
   recipientId: string

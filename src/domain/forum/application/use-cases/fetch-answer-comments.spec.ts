@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { makeAnswer } from '../../../../../test/factories/make-answer.js'
-import { InMemoryAnswerCommentRepository } from '../../../../../test/repositories/in-memory-answer-comment-repository.js'
-import { FetchAnswerCommentsUseCase } from './fetch-answer-comments.js'
-import { makeAnswerComment } from '../../../../../test/factories/make-answer-comment.js'
+import { makeAnswer } from '../../../../../test/factories/make-answer'
+import { InMemoryAnswerCommentRepository } from '../../../../../test/repositories/in-memory-answer-comment-repository'
+import { FetchAnswerCommentsUseCase } from './fetch-answer-comments'
+import { makeAnswerComment } from '../../../../../test/factories/make-answer-comment'
 
 let answerCommentsRepository: InMemoryAnswerCommentRepository
 let sut: FetchAnswerCommentsUseCase

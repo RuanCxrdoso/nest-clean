@@ -10,8 +10,9 @@ describe('Create Question [E2E]', () => {
   let jwt: JwtService
 
   beforeAll(async () => {
-    const { AppModule } = await import('@/infra/app.module.js')
-    const { PrismaService } = await import('@/infra/database/prisma/prisma.service.js')
+    const { AppModule } = await import('@/infra/app.module')
+    const { PrismaService } =
+      await import('@/infra/database/prisma/prisma.service')
     const { JwtService } = await import('@nestjs/jwt')
 
     const moduleRef = await Test.createTestingModule({

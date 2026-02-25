@@ -1,4 +1,4 @@
-import type { AnswerAttachment } from '../../enterprise/entities/answer-attachment.js'
+import { AnswerAttachment } from '@/domain/forum/enterprise/entities/answer-attachment'
 
 export interface IAnswerAttachmentsRepository {
   findManyByAnswerId: (answerId: string) => Promise<AnswerAttachment[]>

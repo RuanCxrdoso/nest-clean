@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { InMemoryAnswersRepository } from '../../../../../test/repositories/in-memory-answers-repository.js'
-import { UpdateAnswerUseCase } from './update-answer.js'
-import { makeAnswer } from '../../../../../test/factories/make-answer.js'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
-import { NotAllowedError } from '@/core/errors/not-allowed-error.js'
-import { InMemoryAnswerAttachmentsRepository } from '../../../../../test/repositories/in-memory-answer-attachments-repository.js'
-import { makeAnswerAttachment } from '../../../../../test/factories/make-answer-attachment.js'
+import { InMemoryAnswersRepository } from '../../../../../test/repositories/in-memory-answers-repository'
+import { UpdateAnswerUseCase } from './update-answer'
+import { makeAnswer } from '../../../../../test/factories/make-answer'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { NotAllowedError } from '@/core/errors/not-allowed-error'
+import { InMemoryAnswerAttachmentsRepository } from '../../../../../test/repositories/in-memory-answer-attachments-repository'
+import { makeAnswerAttachment } from '../../../../../test/factories/make-answer-attachment'
 
 let answerAttachmentRepository: InMemoryAnswerAttachmentsRepository
 let answerRepository: InMemoryAnswersRepository

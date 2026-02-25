@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { InMemoryQuestionRepository } from '../../../../../test/repositories/in-memory-question-repository.js'
-import { makeQuestion } from '../../../../../test/factories/make-question.js'
-import { UpdateQuestionUseCase } from './update-question.js'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id.js'
-import { NotAllowedError } from '@/core/errors/not-allowed-error.js'
-import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repositories/in-memory-question-attachments-repository.js'
-import { QuestionAttachment } from '../../enterprise/entities/question-attachment.js'
-import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list.js'
-import { makeQuestionAttachment } from '../../../../../test/factories/make-question-attachment.js'
+import { InMemoryQuestionRepository } from '../../../../../test/repositories/in-memory-question-repository'
+import { makeQuestion } from '../../../../../test/factories/make-question'
+import { UpdateQuestionUseCase } from './update-question'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { NotAllowedError } from '@/core/errors/not-allowed-error'
+import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repositories/in-memory-question-attachments-repository'
+import { QuestionAttachment } from '../../enterprise/entities/question-attachment'
+import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list'
+import { makeQuestionAttachment } from '../../../../../test/factories/make-question-attachment'
 
 let questionRepository: InMemoryQuestionRepository
 let questionAttachmentRepository: InMemoryQuestionAttachmentsRepository

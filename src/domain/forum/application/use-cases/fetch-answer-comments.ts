@@ -1,6 +1,6 @@
-import { right, type Either } from '@/core/either.js'
-import type { AnswerComment } from '../../enterprise/entities/answer-comment.js'
-import type { IAnswerCommentRepository } from '../repositories/answer-comment-repository.js'
+import { right, type Either } from '@/core/either'
+import type { AnswerComment } from '../../enterprise/entities/answer-comment'
+import type { IAnswerCommentRepository } from '../repositories/answer-comment-repository'
 
 interface FetchAnswerCommentsUseCaseRequest {
   page: number

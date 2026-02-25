@@ -1,5 +1,5 @@
-import type { DomainEvent } from '@/core/events/domain-event.js'
-import type { QuestionComment } from '../entities/question-comment.js'
+import type { DomainEvent } from '@/core/events/domain-event'
+import type { QuestionComment } from '../entities/question-comment'
 
 export class QuestionCommentCreatedEvent implements DomainEvent {
   ocurredAt: Date

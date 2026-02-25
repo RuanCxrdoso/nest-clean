@@ -1,10 +1,10 @@
 import type {
   FindManyByQuestionIdProps,
   IAnswersRepository,
-} from '@/domain/forum/application/repositories/answers-repository.js'
-import type { Answer } from '../../src/domain/forum/enterprise/entities/answer.js'
-import type { IAnswerAttachmentsRepository } from '@/domain/forum/application/repositories/answer-attachments-repository.js'
-import { DomainEvents } from '@/core/events/domain-events.js'
+} from '@/domain/forum/application/repositories/answers-repository'
+import type { Answer } from '../../src/domain/forum/enterprise/entities/answer'
+import type { IAnswerAttachmentsRepository } from '@/domain/forum/application/repositories/answer-attachments-repository'
+import { DomainEvents } from '@/core/events/domain-events'
 
 export class InMemoryAnswersRepository implements IAnswersRepository {
   public answers: Answer[] = []

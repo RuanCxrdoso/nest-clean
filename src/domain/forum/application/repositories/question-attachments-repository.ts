@@ -1,4 +1,4 @@
-import type { QuestionAttachment } from '../../enterprise/entities/question-attachment.js'
+import type { QuestionAttachment } from '../../enterprise/entities/question-attachment'
 
 export interface IQuestionAttachmentsRepository {
   findManyByQuestionId: (questionId: string) => Promise<QuestionAttachment[]>
