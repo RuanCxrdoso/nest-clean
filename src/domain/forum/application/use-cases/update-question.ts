@@ -4,8 +4,8 @@ import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { QuestionAttachment } from '../../enterprise/entities/question-attachment'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import type { IQuestionAttachmentsRepository } from '../repositories/question-attachments-repository'
-import type { IQuestionRepository } from '../repositories/question-repository'
+import { IQuestionAttachmentsRepository } from '../repositories/question-attachments-repository'
+import { IQuestionRepository } from '../repositories/question-repository'
 import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list'
 
 interface UpdateQuestionUseCaseRequest {

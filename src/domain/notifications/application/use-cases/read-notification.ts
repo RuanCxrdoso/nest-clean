@@ -1,5 +1,5 @@
 import { left, right, type Either } from '@/core/either'
-import type { INotificationsRepository } from '../repositories/notifications-repository'
+import { INotificationsRepository } from '../repositories/notifications-repository'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 

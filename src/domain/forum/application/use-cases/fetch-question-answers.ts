@@ -1,6 +1,6 @@
 import { right, type Either } from '@/core/either'
 import type { Answer } from '../../enterprise/entities/answer'
-import type { IAnswersRepository } from '../repositories/answers-repository'
+import { IAnswersRepository } from '../repositories/answers-repository'
 
 interface FetchQuestionAnswersUseCaseRequest {
   page: number
