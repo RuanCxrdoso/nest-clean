@@ -11,6 +11,7 @@ import {
 import z from 'zod'
 import { AuthStudentUseCase } from '@/domain/forum/application/use-cases/auth-student'
 import { InvalidCredentialsError } from '@/domain/forum/application/use-cases/errors/invalid-credentials-error'
+import { Public } from '@/infra/http/is-public-decorator'
 
 const authBodySchema = z.object({
   email: z.email(),
@@ -19,6 +20,7 @@ const authBodySchema = z.object({
 
 export type authDTO = z.infer<typeof authBodySchema>
 
+@Public()
 @Controller('/auth')
 export class AuthController {
   constructor(private authStudent: AuthStudentUseCase) {}
