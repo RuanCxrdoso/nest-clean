@@ -1,5 +1,6 @@
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import {
+  BadRequestException,
   Body,
   Controller,
   HttpCode,
@@ -9,6 +10,7 @@ import {
 } from '@nestjs/common'
 import z from 'zod'
 import { AuthStudentUseCase } from '@/domain/forum/application/use-cases/auth-student'
+import { InvalidCredentialsError } from '@/domain/forum/application/use-cases/errors/invalid-credentials-error'
 
 const authBodySchema = z.object({
   email: z.email(),
@@ -30,9 +32,14 @@ export class AuthController {
     const result = await this.authStudent.execute({ email, password })
 
     if (result.isLeft()) {
-      throw new UnauthorizedException({
-        message: 'Invalid credentials',
-      })
+      const error = result.value
+
+      switch (error.constructor) {
+        case InvalidCredentialsError:
+          throw new UnauthorizedException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
     }
 
     const { accessToken } = result.value

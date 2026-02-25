@@ -1,10 +1,10 @@
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import {
+  BadRequestException,
   Controller,
   Get,
   HttpCode,
-  NotFoundException,
   Query,
   UseGuards,
 } from '@nestjs/common'
@@ -38,7 +38,7 @@ export class FetchRecentQuestionsController {
     })
 
     if (result.isLeft()) {
-      throw new NotFoundException()
+      throw new BadRequestException()
     }
 
     const questions = result.value.questions.map((question) =>
