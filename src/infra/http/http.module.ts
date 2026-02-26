@@ -9,18 +9,22 @@ import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-case
 import { AuthStudentUseCase } from '@/domain/forum/application/use-cases/auth-student'
 import { CryptographyModule } from '@/infra/cryptography/cryptography.module'
 import { CreateStudentUseCase } from '@/domain/forum/application/use-cases/create-student'
+import { FindQuestionBySlugController } from '@/infra/http/controllers/find-question-by-slug.controller'
+import { FindQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/find-question-by-slug'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
   controllers: [
     CreateAccountController,
     CreateQuestionController,
+    FindQuestionBySlugController,
     FetchRecentQuestionsController,
     AuthController,
   ],
   providers: [
     CreateStudentUseCase,
     CreateQuestionUseCase,
+    FindQuestionBySlugUseCase,
     FetchRecentQuestionsUseCase,
     AuthStudentUseCase,
   ],

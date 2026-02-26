@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { InMemoryQuestionRepository } from '../../../../../test/repositories/in-memory-question-repository'
-import { GetQuestionBySlugUseCase } from './find-question-by-slug'
+import { FindQuestionBySlugUseCase } from './find-question-by-slug'
 import { makeQuestion } from '../../../../../test/factories/make-question'
 import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repositories/in-memory-question-attachments-repository'
 
 let questionAttachmentRepository: InMemoryQuestionAttachmentsRepository
 let questionRepository: InMemoryQuestionRepository
-let sut: GetQuestionBySlugUseCase
+let sut: FindQuestionBySlugUseCase
 
 describe('Find Question By Slug Use Case test', () => {
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe('Find Question By Slug Use Case test', () => {
     questionRepository = new InMemoryQuestionRepository(
       questionAttachmentRepository,
     )
-    sut = new GetQuestionBySlugUseCase(questionRepository)
+    sut = new FindQuestionBySlugUseCase(questionRepository)
   })
 
   it('should be able to find a question by slug', async () => {
