@@ -1,28 +1,33 @@
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { QuestionFactory } from 'test/factories/make-question'
+import { StudentFactory } from 'test/factories/make-student'
 
 describe('Find Question by slug [E2E]', () => {
   let app: INestApplication
-  let prisma: PrismaService
+  let studentFactory: StudentFactory
+  let questionFactory: QuestionFactory
   let jwt: JwtService
 
   beforeAll(async () => {
     const { AppModule } = await import('@/infra/app.module.js')
-    const { PrismaService } =
-      await import('@/infra/database/prisma/prisma.service.js')
     const { JwtService } = await import('@nestjs/jwt')
+    const { DatabaseModule } =
+      await import('@/infra/database/database.module.js')
 
     const moduleRef = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [AppModule, DatabaseModule],
+      providers: [StudentFactory, QuestionFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
 
-    prisma = moduleRef.get(PrismaService)
     jwt = moduleRef.get(JwtService)
+    studentFactory = moduleRef.get(StudentFactory)
+    questionFactory = moduleRef.get(QuestionFactory)
 
     await app.init()
   })
@@ -32,24 +37,15 @@ describe('Find Question by slug [E2E]', () => {
   })
 
   test('[GET] /questions/:slug', async () => {
-    const user = await prisma.user.create({
-      data: {
-        name: 'Ruan',
-        email: 'ruan@email.com',
-        password: '123456',
-      },
+    const student = await studentFactory.makePrismaStudent()
+
+    await questionFactory.makePrismaQuestion({
+      authorId: student.id,
+      title: 'Title-1',
+      slug: Slug.create('title-1'),
     })
 
-    const accessToken = jwt.sign({ sub: user.id })
-
-    await prisma.question.create({
-      data: {
-        authorId: user.id,
-        slug: 'title-1',
-        title: 'Title-1',
-        content: 'Question content',
-      },
-    })
+    const accessToken = jwt.sign({ sub: student.id.toString() })
 
     const response = await request(app.getHttpServer())
       .get(`/questions/title-1`)
