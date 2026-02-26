@@ -8,9 +8,11 @@ import { PrismaQuestionAttachmentsRepository } from '@/infra/database/prisma/rep
 import { PrismaQuestionCommentsRepository } from '@/infra/database/prisma/repositories/prisma-question-comment-repository'
 import { PrismaQuestionRepository } from '@/infra/database/prisma/repositories/prisma-question-repository'
 import { PrismaStudentRepository } from '@/infra/database/prisma/repositories/prisma-student-repository'
+import { EnvModule } from '@/infra/env/env.module'
 import { Module } from '@nestjs/common'
 
 @Module({
+  imports: [EnvModule],
   providers: [
     PrismaService,
     {
