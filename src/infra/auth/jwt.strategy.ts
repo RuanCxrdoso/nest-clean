@@ -1,0 +1,29 @@
+import { EnvService } from '@/infra/env/env.service'
+import { Injectable } from '@nestjs/common'
+import { PassportStrategy } from '@nestjs/passport'
+import { ExtractJwt, Strategy } from 'passport-jwt'
+import z from 'zod'
+
+const accessTokenPayloadSchema = z.object({
+  sub: z.uuid(),
+})
+
+export type AccessTokenPayloadDTO = z.infer<typeof accessTokenPayloadSchema>
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy) {
+  constructor(env: EnvService) {
+    const publicKey = env.get('JWT_PUBLIC_KEY')
+
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: Buffer.from(publicKey, 'base64'),
+      algorithms: ['RS256'],
+    })
+  }
+
+  validate(payload: AccessTokenPayloadDTO) {
+    return accessTokenPayloadSchema.parse(payload)
+  }
+}
