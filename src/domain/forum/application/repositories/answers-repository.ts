@@ -1,7 +1,7 @@
 import type { PaginationParams } from '@/core/repositories/pagination-params'
 import type { Answer } from '../../enterprise/entities/answer'
 
-export interface FindManyByQuestionIdProps extends PaginationParams {
+export interface FindManyByAnswerIdProps extends PaginationParams {
   id: string
 }
 
@@ -10,8 +10,8 @@ export interface IAnswersRepository {
   save: (answer: Answer) => Promise<void>
   delete: (answer: Answer) => Promise<void>
   findById: (answerId: string) => Promise<Answer | null>
-  findManyByQuestionId: ({
+  findManyByAnswerId: ({
     id,
     page,
-  }: FindManyByQuestionIdProps) => Promise<Answer[]>
+  }: FindManyByAnswerIdProps) => Promise<Answer[]>
 }
