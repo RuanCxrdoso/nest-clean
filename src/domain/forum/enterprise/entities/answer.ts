@@ -5,8 +5,8 @@ import { AnswerAttachmentList } from './answer-attachment-list'
 import { AnswerCreatedEvent } from '../events/answer-created-event'
 
 export interface AnswerProps {
-  authorId: UniqueEntityId
-  questionId: UniqueEntityId
+  authorId: string
+  questionId: string
   content: string
   attachments: AnswerAttachmentList
   createdAt: Date

@@ -1,5 +1,5 @@
 import type {
-  FindManyByQuestionIdProps,
+  FindManyByAnswerIdProps,
   IAnswersRepository,
 } from '@/domain/forum/application/repositories/answers-repository'
 import type { Answer } from '../../src/domain/forum/enterprise/entities/answer'
@@ -54,7 +54,7 @@ export class InMemoryAnswersRepository implements IAnswersRepository {
     return answer
   }
 
-  async findManyByQuestionId({ id, page }: FindManyByQuestionIdProps) {
+  async findManyByAnswerId({ id, page }: FindManyByAnswerIdProps) {
     const answers = this.answers
       .filter((answer) => answer.questionId.toString() === id)
       .slice((page - 1) * 20, page * 20)

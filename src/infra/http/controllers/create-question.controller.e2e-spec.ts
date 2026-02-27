@@ -41,7 +41,7 @@ describe('Create Question [E2E]', () => {
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
     const response = await request(app.getHttpServer())
-      .post('/question')
+      .post('/questions')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         title: 'Title',
