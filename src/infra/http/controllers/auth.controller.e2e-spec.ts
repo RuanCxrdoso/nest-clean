@@ -6,7 +6,7 @@ describe('Auth Controller [E2E]', () => {
   let app: INestApplication
 
   beforeAll(async () => {
-    const { AppModule } = await import('@/infra/app.module')
+    const { AppModule } = await import('@/infra/app.module.js')
 
     const refModule = await Test.createTestingModule({
       imports: [AppModule],

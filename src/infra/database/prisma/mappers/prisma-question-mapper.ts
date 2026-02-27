@@ -35,7 +35,7 @@ export class PrismaQuestionMapper {
         ? question.bestAnswerId.toString()
         : null,
       createdAt: question.createdAt,
-      updatedAt: question.updatedAt,
+      updatedAt: question.updatedAt ?? undefined,
     }
   }
 }
