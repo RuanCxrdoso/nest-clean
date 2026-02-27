@@ -7,8 +7,8 @@ export class PrismaAnswerMapper {
   static toDomain(raw: PrismaAnswer): Answer {
     return Answer.create(
       {
-        authorId: new UniqueEntityId(raw.authorId),
-        questionId: new UniqueEntityId(raw.questionId),
+        authorId: raw.authorId,
+        questionId: raw.questionId,
         content: raw.content,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
