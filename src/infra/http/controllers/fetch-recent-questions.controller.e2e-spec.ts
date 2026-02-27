@@ -42,9 +42,7 @@ describe('Fetch Recent Questions [E2E]', () => {
     for (let i = 1; i <= 2; i++) {
       await questionFactory.makePrismaQuestion({
         authorId: student.id,
-        // slug: Slug.create(`title-0${i}`),
         title: `Title 0${i}`,
-        content: 'Question content',
       })
     }
 

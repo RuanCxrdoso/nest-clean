@@ -1,18 +1,27 @@
+import { HashGenerator } from '@/domain/forum/application/cryptography/hash-generator'
+import { CryptographyModule } from '@/infra/cryptography/cryptography.module'
+import { DatabaseModule } from '@/infra/database/database.module'
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { StudentFactory } from 'test/factories/make-student'
 
 describe('Auth Controller [E2E]', () => {
   let app: INestApplication
+  let studentFactory: StudentFactory
+  let hashGenerator: HashGenerator
 
   beforeAll(async () => {
     const { AppModule } = await import('@/infra/app.module.js')
 
     const refModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [AppModule, DatabaseModule, CryptographyModule],
+      providers: [StudentFactory],
     }).compile()
 
     app = refModule.createNestApplication()
+    studentFactory = refModule.get(StudentFactory)
+    hashGenerator = refModule.get(HashGenerator)
 
     await app.init()
   })
@@ -22,16 +31,16 @@ describe('Auth Controller [E2E]', () => {
   })
 
   test('[POST] /auth/login', async () => {
-    await request(app.getHttpServer()).post('/accounts').send({
+    await studentFactory.makePrismaStudent({
       name: 'Ruan Cardoso',
-      email: 'ruan@email.com',
-      password: '123456',
+      email: 'ruan123@email.com',
+      password: await hashGenerator.hash('123456'),
     })
 
     const response = await request(app.getHttpServer())
       .post('/auth/login')
       .send({
-        email: 'ruan@email.com',
+        email: 'ruan123@email.com',
         password: '123456',
       })
 
