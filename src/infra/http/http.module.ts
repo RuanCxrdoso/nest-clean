@@ -13,6 +13,8 @@ import { FindQuestionBySlugController } from '@/infra/http/controllers/find-ques
 import { FindQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/find-question-by-slug'
 import { UpdateQuestionController } from '@/infra/http/controllers/update-question.controller'
 import { UpdateQuestionUseCase } from '@/domain/forum/application/use-cases/update-question'
+import { DeleteQuestionController } from '@/infra/http/controllers/delete-question.controller'
+import { DeleteQuestionUseCase } from '@/domain/forum/application/use-cases/delete-question'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -23,6 +25,7 @@ import { UpdateQuestionUseCase } from '@/domain/forum/application/use-cases/upda
     FetchRecentQuestionsController,
     AuthController,
     UpdateQuestionController,
+    DeleteQuestionController,
   ],
   providers: [
     CreateStudentUseCase,
@@ -31,6 +34,7 @@ import { UpdateQuestionUseCase } from '@/domain/forum/application/use-cases/upda
     FetchRecentQuestionsUseCase,
     AuthStudentUseCase,
     UpdateQuestionUseCase,
+    DeleteQuestionUseCase,
   ],
 })
 export class HttpModule {}
