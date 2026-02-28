@@ -43,13 +43,23 @@ jobs:
 
       - name: Run build
         run: pnpm build
-  
+
   e2e-tests:
     name: E2E Tests
     needs: build-and-tests
     if: github.event_name == 'push' && github.ref == 'refs/heads/developer'
 
     runs-on: ubuntu-latest
+
+    env:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: forum_api_test
+      DATABASE_URL: postgresql://postgres:password@localhost:5432/forum_api_test?schema=public
+      DATABASE_SCHEMA: public
+      JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
+      JWT_PUBLIC_KEY: ${{ secrets.JWT_PUBLIC_KEY }}
+      NODE_ENV: test
 
     services:
       postgres:
@@ -88,11 +98,6 @@ jobs:
         run: pnpm prisma:generate
 
       - name: Run E2E tests
-        env:
-          DATABASE_URL: postgresql://postgres:password@localhost:5432/forum_api_test?schema=public
-          DATABASE_SCHEMA: public
-          JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
-          JWT_PUBLIC_KEY: ${{ secrets.JWT_PUBLIC_KEY }}
         run: |
           pnpm prisma migrate deploy
           pnpm test:e2e
