@@ -54,7 +54,7 @@ export class InMemoryAnswersRepository implements IAnswersRepository {
     return answer
   }
 
-  async findManyByAnswerId({ id, page }: FindManyByAnswerIdProps) {
+  async findManyByQuestionId({ id, page }: FindManyByAnswerIdProps) {
     const answers = this.answers
       .filter((answer) => answer.questionId.toString() === id)
       .slice((page - 1) * 20, page * 20)
