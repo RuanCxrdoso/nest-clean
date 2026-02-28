@@ -20,15 +20,15 @@ describe('Fetch question answers use-case test', () => {
     const fakeQuestion = makeQuestion()
 
     const fakeAnswer1 = makeAnswer({
-      questionId: fakeQuestion.id,
+      questionId: fakeQuestion.id.toString(),
     })
 
     const fakeAnswer2 = makeAnswer({
-      questionId: fakeQuestion.id,
+      questionId: fakeQuestion.id.toString(),
     })
 
     const fakeAnswer3 = makeAnswer({
-      questionId: fakeQuestion.id,
+      questionId: fakeQuestion.id.toString(),
     })
 
     await answerRepository.create(fakeAnswer1)
@@ -42,9 +42,9 @@ describe('Fetch question answers use-case test', () => {
 
     expect(result.value?.answers).toHaveLength(3)
     expect(result.value?.answers).toEqual([
-      expect.objectContaining({ questionId: fakeQuestion.id }),
-      expect.objectContaining({ questionId: fakeQuestion.id }),
-      expect.objectContaining({ questionId: fakeQuestion.id }),
+      expect.objectContaining({ questionId: fakeQuestion.id.toString() }),
+      expect.objectContaining({ questionId: fakeQuestion.id.toString() }),
+      expect.objectContaining({ questionId: fakeQuestion.id.toString() }),
     ])
   })
 
@@ -52,7 +52,7 @@ describe('Fetch question answers use-case test', () => {
     const fakeQuestion = makeQuestion()
 
     for (let i = 1; i <= 22; i++) {
-      const fakeAnswer = makeAnswer({ questionId: fakeQuestion.id })
+      const fakeAnswer = makeAnswer({ questionId: fakeQuestion.id.toString() })
 
       await answerRepository.create(fakeAnswer)
     }

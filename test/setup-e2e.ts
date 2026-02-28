@@ -20,15 +20,20 @@ function generateUniqueDatabaseURL(schemaId: string) {
 const schemaId = randomUUID()
 let prisma: PrismaClient
 
-beforeAll(() => {
+beforeAll(async () => {
   const databaseUrl = generateUniqueDatabaseURL(schemaId)
 
   process.env.DATABASE_URL = databaseUrl
   process.env.DATABASE_SCHEMA = schemaId
 
-  const adapter = new PrismaPg({
-    connectionString: databaseUrl,
-  })
+  const adapter = new PrismaPg(
+    {
+      connectionString: databaseUrl,
+    },
+    {
+      schema: schemaId,
+    },
+  )
   prisma = new PrismaClient({ adapter })
 
   execSync('pnpm prisma migrate deploy')
