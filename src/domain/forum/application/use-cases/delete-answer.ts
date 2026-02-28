@@ -1,5 +1,5 @@
 import { left, right, type Either } from '@/core/either'
-import type { IAnswersRepository } from '../repositories/answers-repository'
+import { IAnswersRepository } from '../repositories/answers-repository'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'

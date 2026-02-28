@@ -50,7 +50,7 @@ export class PrismaAnswersRepository implements IAnswersRepository {
     return PrismaAnswerMapper.toDomain(answer)
   }
 
-  async findManyByAnswerId({
+  async findManyByQuestionId({
     id,
     page,
   }: FindManyByAnswerIdProps): Promise<Answer[]> {
@@ -60,7 +60,7 @@ export class PrismaAnswersRepository implements IAnswersRepository {
 
     const answersResult = await this.prisma.answer.findMany({
       where: {
-        id,
+        questionId: id,
       },
       orderBy: {
         createdAt: 'desc',

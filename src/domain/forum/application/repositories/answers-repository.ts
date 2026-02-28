@@ -10,7 +10,7 @@ export abstract class IAnswersRepository {
   abstract save: (answer: Answer) => Promise<void>
   abstract delete: (answer: Answer) => Promise<void>
   abstract findById: (answerId: string) => Promise<Answer | null>
-  abstract findManyByAnswerId: ({
+  abstract findManyByQuestionId: ({
     id,
     page,
   }: FindManyByAnswerIdProps) => Promise<Answer[]>
