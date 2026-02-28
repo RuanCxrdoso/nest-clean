@@ -26,8 +26,6 @@ beforeAll(async () => {
   process.env.DATABASE_URL = databaseUrl
   process.env.DATABASE_SCHEMA = schemaId
 
-  console.log('🚀 ~ databaseUrl:', databaseUrl)
-
   const adapter = new PrismaPg(
     {
       connectionString: databaseUrl,
