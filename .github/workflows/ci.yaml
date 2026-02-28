@@ -1,0 +1,103 @@
+name: '[CI] Forum API'
+
+on:
+  push:
+    branches: [developer]
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  build-and-tests:
+    name: Lint, Unit Tests and Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run prisma generate
+        run: pnpm prisma:generate
+
+      - name: Run linter
+        run: pnpm lint:check
+
+      - name: Run formatter
+        run: pnpm format:check
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Run build
+        run: pnpm build
+
+  e2e-tests:
+    name: E2E Tests
+    needs: build-and-tests
+    if: github.event_name == 'push' && github.ref == 'refs/heads/developer'
+
+    runs-on: ubuntu-latest
+
+    env:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: forum_api_test
+      DATABASE_URL: postgresql://postgres:password@localhost:5432/forum_api_test?schema=public
+      DATABASE_SCHEMA: public
+      JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
+      JWT_PUBLIC_KEY: ${{ secrets.JWT_PUBLIC_KEY }}
+      NODE_ENV: test
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: forum_api_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d forum_api_test"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run prisma generate
+        run: pnpm prisma:generate
+
+      - name: Run E2E tests
+        run: |
+          pnpm prisma migrate deploy
+          pnpm test:e2e
