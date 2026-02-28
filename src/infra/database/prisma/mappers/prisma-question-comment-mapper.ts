@@ -9,13 +9,16 @@ export class PrismaQuestionCommentMapper {
       throw new Error('Invalid type')
     }
 
-    return QuestionComment.create({
-      questionId: new UniqueEntityId(raw.questionId),
-      authorId: new UniqueEntityId(raw.authorId),
-      content: raw.content,
-      createdAt: raw.createdAt,
-      updatedAt: raw.updatedAt,
-    })
+    return QuestionComment.create(
+      {
+        questionId: new UniqueEntityId(raw.questionId),
+        authorId: new UniqueEntityId(raw.authorId),
+        content: raw.content,
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
+      },
+      new UniqueEntityId(raw.id),
+    )
   }
 
   static toPrisma(
