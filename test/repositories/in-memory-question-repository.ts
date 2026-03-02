@@ -13,6 +13,12 @@ export class InMemoryQuestionRepository implements IQuestionRepository {
 
   async create(question: Question) {
     this.questions.push(question)
+
+    const questionAttachmentsList = question.attachments.getItems()
+
+    if (questionAttachmentsList.length >= 1) {
+      this.questionAttachmentsRepository.createMany(questionAttachmentsList)
+    }
   }
 
   async delete(question: Question) {
@@ -31,6 +37,12 @@ export class InMemoryQuestionRepository implements IQuestionRepository {
     )
 
     this.questions[questionIndex] = question
+
+    const newAttachments = question.attachments.getNewItems()
+    const removedAttachments = question.attachments.getRemovedItems()
+
+    await this.questionAttachmentsRepository.createMany(newAttachments)
+    await this.questionAttachmentsRepository.deleteMany(removedAttachments)
 
     DomainEvents.dispatchEventsForAggregate(question.id)
   }
