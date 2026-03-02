@@ -1,6 +1,5 @@
 import { Either, left, right } from '@/core/either'
 import { IAttachmentsRepository } from '@/domain/forum/application/repositories/attachments-repository'
-import { IUploader } from '@/domain/forum/application/storage/uploader'
 import { InvalidAttachmentTypeError } from '@/domain/forum/application/use-cases/errors/invalid-attachments-type'
 import { Attachment } from '@/domain/forum/enterprise/entities/attachment'
 import { Injectable } from '@nestjs/common'
@@ -20,27 +19,27 @@ type UploadAttachmentUseCaseResponse = Either<
 export class UploadAttachmentUseCase {
   constructor(
     private attachmentRepository: IAttachmentsRepository,
-    private uploader: IUploader,
+    // private uploader: IUploader,
   ) {}
 
   async execute({
     fileName,
     fileType,
-    body,
+    // body,
   }: UploadAttachmentUseCaseRequest): Promise<UploadAttachmentUseCaseResponse> {
     if (!/^(image\/(jpeg|png))$|^application\/pdf$/.test(fileType)) {
       return left(new InvalidAttachmentTypeError())
     }
 
-    const { url } = await this.uploader.upload({
-      fileName,
-      fileType,
-      body,
-    })
+    // const { url } = await this.uploader.upload({
+    //   fileName,
+    //   fileType,
+    //   body,
+    // })
 
     const attachment = Attachment.create({
       title: fileName,
-      url,
+      url: 'random-uuid',
     })
 
     await this.attachmentRepository.create(attachment)
