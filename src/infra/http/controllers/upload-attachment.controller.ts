@@ -29,7 +29,7 @@ export class UploadAttachmentController {
     file: Express.Multer.File,
   ) {
     console.log('File uploaded ===> ', file)
-    const { filename: fileName, buffer: body, mimetype: fileType } = file
+    const { originalname: fileName, buffer: body, mimetype: fileType } = file
 
     const result = await this.uploadAttachmentUseCase.execute({
       fileName,
