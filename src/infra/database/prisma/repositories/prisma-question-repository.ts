@@ -36,18 +36,19 @@ export class PrismaQuestionRepository implements IQuestionRepository {
   async save(question: Question): Promise<void> {
     const data = PrismaQuestionMapper.toPrisma(question)
 
-    await this.prisma.question.update({
-      where: {
-        id: question.id.toString(),
-      },
-      data,
-    })
-
     const newAttachments = question.attachments.getNewItems()
     const removedAttachments = question.attachments.getRemovedItems()
 
-    this.questionAttachmentRepository.createMany(newAttachments)
-    this.questionAttachmentRepository.deleteMany(removedAttachments)
+    await Promise.all([
+      this.prisma.question.update({
+        where: {
+          id: question.id.toString(),
+        },
+        data,
+      }),
+      this.questionAttachmentRepository.createMany(newAttachments),
+      this.questionAttachmentRepository.deleteMany(removedAttachments),
+    ])
   }
 
   async findBySlug(slug: string): Promise<Question | null> {
