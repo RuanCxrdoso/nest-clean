@@ -18,7 +18,7 @@ import z from 'zod'
 
 const updateAnswerBodySchema = z.object({
   content: z.string(),
-  attachmentsIds: z.array(z.string()),
+  attachmentsIds: z.array(z.uuid()),
 })
 
 export type updateAnswerDTO = z.infer<typeof updateAnswerBodySchema>

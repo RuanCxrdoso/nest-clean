@@ -19,4 +19,16 @@ export class InMemoryAnswerAttachmentsRepository implements IAnswerAttachmentsRe
 
     return
   }
+
+  async createMany(attachments: AnswerAttachment[]) {
+    this.answerAttachments.push(...attachments)
+  }
+
+  async deleteMany(attachments: AnswerAttachment[]) {
+    this.answerAttachments = this.answerAttachments.filter((item) => {
+      return !attachments.some(
+        (attachment) => attachment.id.toString() === item.id.toString(),
+      )
+    })
+  }
 }
