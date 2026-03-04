@@ -40,7 +40,9 @@ describe('Fetch Question Comments [E2E]', () => {
   })
 
   test('[GET] /questions/:questionId/comments', async () => {
-    const student = await studentFactory.makePrismaStudent()
+    const student = await studentFactory.makePrismaStudent({
+      name: 'Cristiano Ronaldin',
+    })
     const question = await questionFactory.makePrismaQuestion({
       authorId: student.id,
     })
@@ -65,9 +67,11 @@ describe('Fetch Question Comments [E2E]', () => {
       comments: expect.arrayContaining([
         expect.objectContaining({
           content: 'Content -1',
+          name: 'Cristiano Ronaldin',
         }),
         expect.objectContaining({
           content: 'Content -2',
+          name: 'Cristiano Ronaldin',
         }),
       ]),
     })

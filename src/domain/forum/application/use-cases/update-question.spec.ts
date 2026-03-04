@@ -125,10 +125,7 @@ describe('Update question Use Case test', () => {
 
     expect(result.isRight()).toBe(true)
     expect(questionAttachmentRepository.questionAttachments).toHaveLength(2)
-    console.log(
-      '🚀 ~ questionAttachmentRepository.questionAttachments:',
-      questionAttachmentRepository.questionAttachments,
-    )
+
     expect(questionAttachmentRepository.questionAttachments).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
