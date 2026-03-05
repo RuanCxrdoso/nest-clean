@@ -50,7 +50,7 @@ describe('Create Question [E2E]', () => {
       .post('/questions')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        title: 'Title',
+        title: `New Question 123`,
         content: 'Question content',
         attachmentsIds: [attachment1.id.toString(), attachment2.id.toString()],
       })

@@ -31,16 +31,15 @@ describe('Auth Controller [E2E]', () => {
   })
 
   test('[POST] /auth/login', async () => {
-    await studentFactory.makePrismaStudent({
+    const student = await studentFactory.makePrismaStudent({
       name: 'Ruan Cardoso',
-      email: 'ruan123@email.com',
       password: await hashGenerator.hash('123456'),
     })
 
     const response = await request(app.getHttpServer())
       .post('/auth/login')
       .send({
-        email: 'ruan123@email.com',
+        email: student.email,
         password: '123456',
       })
 

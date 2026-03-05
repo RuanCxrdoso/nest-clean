@@ -85,7 +85,7 @@ describe('Edit Question [E2E]', () => {
       .put(`/questions/${question.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        title: 'Updated title',
+        title: 'Updated unique title',
         content: 'Updated content',
         attachmentsIds: [
           attachment2.id.toString(),
@@ -98,7 +98,7 @@ describe('Edit Question [E2E]', () => {
 
     const isQuestionOnDatabase = await prisma.question.findFirst({
       where: {
-        title: 'Updated title',
+        title: 'Updated unique title',
         content: 'Updated content',
       },
     })

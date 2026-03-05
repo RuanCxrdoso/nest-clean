@@ -59,7 +59,7 @@ describe('Update Answer Controller [E2E]', () => {
     const answer = await answerFactory.makePrismaAnswer({
       authorId: user.id.toString(),
       questionId: question.id.toString(),
-      content: 'Earlier content',
+      content: 'Earlier unique content',
     })
 
     const attachment1 = await attachmentFactory.makePrismaAttachment()
@@ -85,7 +85,7 @@ describe('Update Answer Controller [E2E]', () => {
       .put(`/answers/${answerId}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        content: 'Content updated',
+        content: 'Content updated 321',
         attachmentsIds: [
           attachment2.id.toString(),
           attachment3.id.toString(),
@@ -97,7 +97,7 @@ describe('Update Answer Controller [E2E]', () => {
 
     const answerOnDatabase = await prisma.answer.findFirst({
       where: {
-        content: 'Content updated',
+        content: 'Content updated 321',
       },
     })
 
