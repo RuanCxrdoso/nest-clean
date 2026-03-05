@@ -19,7 +19,7 @@ import z from 'zod'
 const updateQuestionBodySchema = z.object({
   title: z.string(),
   content: z.string(),
-  attachmentsIds: z.array(z.string()).default([]),
+  attachmentsIds: z.array(z.uuid()).default([]),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(updateQuestionBodySchema)
@@ -36,10 +36,14 @@ export class UpdateQuestionController {
     @User() user: AccessTokenPayloadDTO,
     @Body(bodyValidationPipe) body: UpdateQuestionDTO,
   ) {
+    const { title, content, attachmentsIds } = body
+
     const result = await this.updateQuestionUseCase.execute({
       authorId: user.sub,
       questionId,
-      ...body,
+      title,
+      content,
+      attachmentsIds,
     })
 
     if (result.isLeft()) {

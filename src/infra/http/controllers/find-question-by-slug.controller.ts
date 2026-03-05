@@ -1,6 +1,6 @@
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { FindQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/find-question-by-slug'
-import { QuestionPresenter } from '@/infra/http/presenters/question-presenter'
+import { QuestionDetailsPresenter } from '@/infra/http/presenters/question-details-presenter'
 import {
   BadRequestException,
   Controller,
@@ -30,7 +30,7 @@ export class FindQuestionBySlugController {
       }
     }
 
-    const question = QuestionPresenter.toHTTP(result.value.question)
+    const question = QuestionDetailsPresenter.toHTTP(result.value.question)
 
     return {
       question,

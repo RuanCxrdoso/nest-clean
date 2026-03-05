@@ -7,22 +7,31 @@ import { InMemoryQuestionCommentRepository } from '../../../../../test/repositor
 import { SendNotificationUseCase } from '../use-cases/send-notification'
 import { InMemoryNotificationsRepository } from '../../../../../test/repositories/in-memory-notifications-repository'
 import { OnQuestionCommentCreated } from './on-question-comment-created'
+import { InMemoryStudentRepository } from 'test/repositories/in-memory-student-repository'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
 let questionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let questionsRepository: InMemoryQuestionRepository
 let questionCommentRepository: InMemoryQuestionCommentRepository
 let notificationsRepository: InMemoryNotificationsRepository
 let sendNotificationUseCase: SendNotificationUseCase
-
+let studentsRepository: InMemoryStudentRepository
+let attachmentsRepository: InMemoryAttachmentsRepository
 let sendNotificationSpy
 
 describe('Question comment created event tests', () => {
   beforeEach(() => {
     questionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository()
+    studentsRepository = new InMemoryStudentRepository()
+    attachmentsRepository = new InMemoryAttachmentsRepository()
     questionsRepository = new InMemoryQuestionRepository(
+      studentsRepository,
+      attachmentsRepository,
       questionAttachmentsRepository,
     )
-    questionCommentRepository = new InMemoryQuestionCommentRepository()
+    questionCommentRepository = new InMemoryQuestionCommentRepository(
+      studentsRepository,
+    )
     notificationsRepository = new InMemoryNotificationsRepository()
     sendNotificationUseCase = new SendNotificationUseCase(
       notificationsRepository,

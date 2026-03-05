@@ -14,6 +14,7 @@ import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/crea
 const createQuestionBodySchema = z.object({
   title: z.string(),
   content: z.string(),
+  attachmentsIds: z.array(z.uuid()).default([]),
 })
 
 export type createQuestionDTO = z.infer<typeof createQuestionBodySchema>
@@ -30,14 +31,14 @@ export class CreateQuestionController {
     @Body(zodValidationPipe) body: createQuestionDTO,
     @User() user: AccessTokenPayloadDTO,
   ) {
-    const { title, content } = body
+    const { title, content, attachmentsIds } = body
     const { sub: userId } = user
 
     const result = await this.createQuestionUseCase.execute({
       title,
       content,
       authorId: userId,
-      attachmentsIds: [],
+      attachmentsIds,
     })
 
     if (result.isLeft()) {

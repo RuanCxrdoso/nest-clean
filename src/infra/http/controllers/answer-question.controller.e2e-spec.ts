@@ -4,6 +4,7 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { AttachmentFactory } from 'test/factories/make-attachment'
 import { QuestionFactory } from 'test/factories/make-question'
 import { StudentFactory } from 'test/factories/make-student'
 
@@ -12,6 +13,7 @@ describe('Answer Question [E2E]', () => {
   let prisma: PrismaService
   let studentFactory: StudentFactory
   let questionFactory: QuestionFactory
+  let attachmentFactory: AttachmentFactory
   let jwt: JwtService
 
   beforeAll(async () => {
@@ -22,7 +24,7 @@ describe('Answer Question [E2E]', () => {
 
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [StudentFactory, QuestionFactory],
+      providers: [StudentFactory, QuestionFactory, AttachmentFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
@@ -30,6 +32,7 @@ describe('Answer Question [E2E]', () => {
     jwt = moduleRef.get(JwtService)
     studentFactory = moduleRef.get(StudentFactory)
     questionFactory = moduleRef.get(QuestionFactory)
+    attachmentFactory = moduleRef.get(AttachmentFactory)
 
     await app.init()
   })
@@ -47,21 +50,33 @@ describe('Answer Question [E2E]', () => {
     const accessToken = jwt.sign({ sub: user.id.toString() })
     const questionId = question.id.toString()
 
+    const attachment1 = await attachmentFactory.makePrismaAttachment()
+    const attachment2 = await attachmentFactory.makePrismaAttachment()
+
     const response = await request(app.getHttpServer())
       .post(`/questions/${questionId}/answers`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        content: 'Question content',
+        content: 'Answer custom content',
+        attachmentsIds: [attachment1.id.toString(), attachment2.id.toString()],
       })
 
     expect(response.statusCode).toBe(201)
 
-    const isAnswerOnDatabase = await prisma.answer.findFirst({
+    const answerOnDatabase = await prisma.answer.findFirst({
       where: {
-        content: 'Question content',
+        content: 'Answer custom content',
       },
     })
 
-    expect(isAnswerOnDatabase).toBeTruthy()
+    expect(answerOnDatabase).toBeTruthy()
+
+    const answerAttachemntsOnDatabase = await prisma.attachment.findMany({
+      where: {
+        answerId: answerOnDatabase?.id,
+      },
+    })
+
+    expect(answerAttachemntsOnDatabase).toHaveLength(2)
   })
 })

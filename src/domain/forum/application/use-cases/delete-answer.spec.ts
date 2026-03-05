@@ -20,7 +20,7 @@ describe('Delete answer Use Case test', () => {
 
   it('should be able to delete a answer', async () => {
     const fakeAnswer = makeAnswer(
-      { authorId: new UniqueEntityId('author-1') },
+      { authorId: new UniqueEntityId('author-1').toString() },
       new UniqueEntityId('answer-1'),
     )
 
@@ -46,7 +46,7 @@ describe('Delete answer Use Case test', () => {
 
   it('shouldnt be able to delete a question from another user', async () => {
     const fakeAnswer = makeAnswer(
-      { authorId: new UniqueEntityId('author-1') },
+      { authorId: new UniqueEntityId('author-1').toString() },
       new UniqueEntityId('answer-1'),
     )
 

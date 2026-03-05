@@ -10,11 +10,13 @@ import { MakeStudent } from 'test/factories/make-student'
 
 let answerAttachmentRepository: InMemoryAnswerAttachmentsRepository
 let answerRepository: InMemoryAnswersRepository
+let sut: AnswerQuestionUseCase
 
 describe('Answer question tests', () => {
   beforeEach(() => {
     answerAttachmentRepository = new InMemoryAnswerAttachmentsRepository()
     answerRepository = new InMemoryAnswersRepository(answerAttachmentRepository)
+    sut = new AnswerQuestionUseCase(answerRepository)
   })
 
   it('should be able to answer a question', async () => {
@@ -31,8 +33,8 @@ describe('Answer question tests', () => {
     const answerQuestionUseCase = new AnswerQuestionUseCase(answerRepository)
 
     const result = await answerQuestionUseCase.execute({
-      instructorId: instructor.id,
-      questionId: question.id,
+      authorId: instructor.id.toString(),
+      questionId: question.id.toString(),
       content: 'Faça triceps pulley!',
       attachmentsIds: ['1', '2'],
     })
@@ -50,5 +52,27 @@ describe('Answer question tests', () => {
         attachmentId: new UniqueEntityId('2'),
       }),
     ])
+  })
+
+  it('should persist attachments when creating a new answer', async () => {
+    const result = await sut.execute({
+      authorId: '1',
+      questionId: '1',
+      content: 'Conteúdo da resposta',
+      attachmentsIds: ['1', '2'],
+    })
+
+    expect(result.isRight()).toBe(true)
+    expect(answerAttachmentRepository.answerAttachments).toHaveLength(2)
+    expect(answerAttachmentRepository.answerAttachments).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          attachmentId: new UniqueEntityId('1'),
+        }),
+        expect.objectContaining({
+          attachmentId: new UniqueEntityId('2'),
+        }),
+      ]),
+    )
   })
 })

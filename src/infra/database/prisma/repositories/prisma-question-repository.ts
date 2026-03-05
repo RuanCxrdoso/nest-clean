@@ -1,20 +1,29 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
+import { IQuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments-repository'
 import { IQuestionRepository } from '@/domain/forum/application/repositories/question-repository'
 import { Question } from '@/domain/forum/enterprise/entities/question'
+import { QuestionDetails } from '@/domain/forum/enterprise/entities/value-objects/question-details'
 import { PrismaQuestionMapper } from '@/infra/database/prisma/mappers/prisma-question-mapper'
+import { QuestionWithDetailsMapper } from '@/infra/database/prisma/mappers/prisma-question-with-details-mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class PrismaQuestionRepository implements IQuestionRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private questionAttachmentRepository: IQuestionAttachmentsRepository,
+  ) {}
 
   async create(question: Question): Promise<void> {
-    // TODO: If exists, create all related attachments.
     const data = PrismaQuestionMapper.toPrisma(question)
     await this.prisma.question.create({
       data,
     })
+
+    const questionAttachmentList = question.attachments.getItems()
+
+    await this.questionAttachmentRepository.createMany(questionAttachmentList)
   }
 
   async delete(question: Question): Promise<void> {
@@ -29,12 +38,19 @@ export class PrismaQuestionRepository implements IQuestionRepository {
   async save(question: Question): Promise<void> {
     const data = PrismaQuestionMapper.toPrisma(question)
 
-    await this.prisma.question.update({
-      where: {
-        id: question.id.toString(),
-      },
-      data,
-    })
+    const newAttachments = question.attachments.getNewItems()
+    const removedAttachments = question.attachments.getRemovedItems()
+
+    await Promise.all([
+      this.prisma.question.update({
+        where: {
+          id: question.id.toString(),
+        },
+        data,
+      }),
+      this.questionAttachmentRepository.createMany(newAttachments),
+      this.questionAttachmentRepository.deleteMany(removedAttachments),
+    ])
   }
 
   async findBySlug(slug: string): Promise<Question | null> {
@@ -47,6 +63,26 @@ export class PrismaQuestionRepository implements IQuestionRepository {
     if (!question) return null
 
     return PrismaQuestionMapper.toDomain(question)
+  }
+
+  async findBySlugWithDetails(slug: string): Promise<QuestionDetails | null> {
+    const question = await this.prisma.question.findUnique({
+      where: {
+        slug,
+      },
+      include: {
+        author: true,
+        attachments: true,
+      },
+    })
+
+    if (!question) {
+      throw new Error(`Question with slug '${slug}' not found.`)
+    }
+
+    const questionDetails = QuestionWithDetailsMapper.toDomain(question)
+
+    return questionDetails
   }
 
   async findById(id: string): Promise<Question | null> {
