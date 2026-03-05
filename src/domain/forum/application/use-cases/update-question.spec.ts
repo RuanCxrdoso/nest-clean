@@ -8,15 +8,23 @@ import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repos
 import { QuestionAttachment } from '../../enterprise/entities/question-attachment'
 import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list'
 import { makeQuestionAttachment } from '../../../../../test/factories/make-question-attachment'
+import { InMemoryStudentRepository } from 'test/repositories/in-memory-student-repository'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
 let questionRepository: InMemoryQuestionRepository
 let questionAttachmentRepository: InMemoryQuestionAttachmentsRepository
+let studentRepository: InMemoryStudentRepository
+let attachmentRepository: InMemoryAttachmentsRepository
 let sut: UpdateQuestionUseCase
 
 describe('Update question Use Case test', () => {
   beforeEach(() => {
     questionAttachmentRepository = new InMemoryQuestionAttachmentsRepository()
+    studentRepository = new InMemoryStudentRepository()
+    attachmentRepository = new InMemoryAttachmentsRepository()
     questionRepository = new InMemoryQuestionRepository(
+      studentRepository,
+      attachmentRepository,
       questionAttachmentRepository,
     )
     sut = new UpdateQuestionUseCase(

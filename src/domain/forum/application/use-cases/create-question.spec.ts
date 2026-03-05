@@ -3,15 +3,23 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { CreateQuestionUseCase } from './create-question'
 import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repositories/in-memory-question-attachments-repository'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryStudentRepository } from 'test/repositories/in-memory-student-repository'
 
 let questionRepository: InMemoryQuestionRepository
+let studentRepository: InMemoryStudentRepository
+let attachmentRepository: InMemoryAttachmentsRepository
 let questionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let sut: CreateQuestionUseCase
 
 describe('Create question test', () => {
   beforeEach(() => {
     questionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository()
+    studentRepository = new InMemoryStudentRepository()
+    attachmentRepository = new InMemoryAttachmentsRepository()
     questionRepository = new InMemoryQuestionRepository(
+      studentRepository,
+      attachmentRepository,
       questionAttachmentsRepository,
     )
     sut = new CreateQuestionUseCase(questionRepository)

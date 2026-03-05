@@ -6,16 +6,24 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repositories/in-memory-question-attachments-repository'
 import { makeQuestionAttachment } from '../../../../../test/factories/make-question-attachment'
+import { InMemoryStudentRepository } from 'test/repositories/in-memory-student-repository'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
 let questionRepository: InMemoryQuestionRepository
-let questionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
+let questionAttachmentRepository: InMemoryQuestionAttachmentsRepository
+let studentRepository: InMemoryStudentRepository
+let attachmentRepository: InMemoryAttachmentsRepository
 let sut: DeleteQuestionUseCase
 
 describe('Delete question Use Case test', () => {
   beforeEach(() => {
-    questionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository()
+    questionAttachmentRepository = new InMemoryQuestionAttachmentsRepository()
+    studentRepository = new InMemoryStudentRepository()
+    attachmentRepository = new InMemoryAttachmentsRepository()
     questionRepository = new InMemoryQuestionRepository(
-      questionAttachmentsRepository,
+      studentRepository,
+      attachmentRepository,
+      questionAttachmentRepository,
     )
     sut = new DeleteQuestionUseCase(questionRepository)
   })
@@ -34,7 +42,7 @@ describe('Delete question Use Case test', () => {
         attachmentId: new UniqueEntityId(i.toString()), // '1' e '2'
       })
 
-      questionAttachmentsRepository.questionAttachments.push(questionAttachment)
+      questionAttachmentRepository.questionAttachments.push(questionAttachment)
     }
 
     await sut.execute({
@@ -43,7 +51,7 @@ describe('Delete question Use Case test', () => {
     })
 
     expect(questionRepository.questions).toHaveLength(0)
-    expect(questionAttachmentsRepository.questionAttachments).toHaveLength(0)
+    expect(questionAttachmentRepository.questionAttachments).toHaveLength(0)
   })
 
   it('shouldnt be able to delete a question from another user', async () => {

@@ -69,9 +69,9 @@ export class InMemoryQuestionRepository implements IQuestionRepository {
 
     if (!question) return null
 
-    const questionAuthor = this.studentRepository.items.find((student) => {
-      student.id.equals(question.authorId)
-    })
+    const questionAuthor = this.studentRepository.items.find((student) =>
+      student.id.equals(question.authorId),
+    )
 
     if (!questionAuthor) return null
 
@@ -82,7 +82,7 @@ export class InMemoryQuestionRepository implements IQuestionRepository {
 
     const attachments = questionAttachments.map((questionAttachment) => {
       const attachment = this.attachmentsRepository.items.find((item) =>
-        item.id.equals(questionAttachment.id),
+        item.id.equals(questionAttachment.attachmentId),
       )
 
       if (!attachment) {
