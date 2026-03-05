@@ -1,4 +1,4 @@
 // Para criação de subscribers
-export interface EventHandler {
-  setupSubscriptions: () => void
+export abstract class EventHandler {
+  abstract setupSubscriptions: () => void
 }
