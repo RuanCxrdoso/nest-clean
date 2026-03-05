@@ -3,9 +3,11 @@ import {
   QuestionAttachment,
   type QuestionAttachmentProps,
 } from '@/domain/forum/enterprise/entities/question-attachment'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
 
 export function makeQuestionAttachment(
-  override: Partial<QuestionAttachmentProps>,
+  override: Partial<QuestionAttachmentProps> = {},
   id?: UniqueEntityId,
 ) {
   const questionAttachment = QuestionAttachment.create(
@@ -18,4 +20,26 @@ export function makeQuestionAttachment(
   )
 
   return questionAttachment
+}
+
+@Injectable()
+export class QuestionAttachmentFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaQuestionAttachment(
+    data: Partial<QuestionAttachmentProps> = {},
+  ) {
+    const questionAtachment = makeQuestionAttachment(data)
+
+    await this.prisma.attachment.update({
+      where: {
+        id: questionAtachment.attachmentId.toString(),
+      },
+      data: {
+        questionId: questionAtachment.questionId.toString(),
+      },
+    })
+
+    return questionAtachment
+  }
 }

@@ -19,4 +19,16 @@ export class InMemoryQuestionAttachmentsRepository implements IQuestionAttachmen
 
     return
   }
+
+  async createMany(attachments: QuestionAttachment[]): Promise<void> {
+    this.questionAttachments.push(...attachments)
+  }
+
+  async deleteMany(attachments: QuestionAttachment[]): Promise<void> {
+    const newQuestionAttachmentsList = this.questionAttachments.filter(
+      (item) => !attachments.some((attachment) => attachment.equals(item)),
+    )
+
+    this.questionAttachments = newQuestionAttachmentsList
+  }
 }

@@ -47,7 +47,7 @@ describe('Choose Question Best Answer Controller [E2E]', () => {
     const answer = await answerFactory.makePrismaAnswer({
       authorId: user.id.toString(),
       questionId: question.id.toString(),
-      content: 'Best answer',
+      content: 'Best answer choosen',
     })
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
@@ -56,7 +56,6 @@ describe('Choose Question Best Answer Controller [E2E]', () => {
     const response = await request(app.getHttpServer())
       .patch(`/answers/${answerId}/choose-as-best`)
       .set('Authorization', `Bearer ${accessToken}`)
-      .send()
 
     expect(response.statusCode).toBe(204)
 

@@ -1,8 +1,8 @@
 import { left, right, type Either } from '@/core/either'
-import type { Question } from '../../enterprise/entities/question'
 import { IQuestionRepository } from '../repositories/question-repository'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'
+import { QuestionDetails } from '@/domain/forum/enterprise/entities/value-objects/question-details'
 
 interface GetQuestionBySlugRequest {
   slug: string
@@ -11,7 +11,7 @@ interface GetQuestionBySlugRequest {
 type GetQuestionBySlugResponse = Either<
   ResourceNotFoundError,
   {
-    question: Question
+    question: QuestionDetails
   }
 >
 
@@ -22,7 +22,7 @@ export class FindQuestionBySlugUseCase {
   async execute({
     slug,
   }: GetQuestionBySlugRequest): Promise<GetQuestionBySlugResponse> {
-    const question = await this.questionRepository.findBySlug(slug)
+    const question = await this.questionRepository.findBySlugWithDetails(slug)
 
     if (!question) {
       return left(new ResourceNotFoundError())

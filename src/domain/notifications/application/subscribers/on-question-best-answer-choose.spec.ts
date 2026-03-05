@@ -8,10 +8,14 @@ import { InMemoryNotificationsRepository } from '../../../../../test/repositorie
 import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repositories/in-memory-question-attachments-repository'
 import { makeQuestion } from '../../../../../test/factories/make-question'
 import { OnQuestionBestAnswerChoose } from './on-question-best-answer-choose'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryStudentRepository } from 'test/repositories/in-memory-student-repository'
 
 let sendNotificationUseCase: SendNotificationUseCase
 let notificationsRepository: InMemoryNotificationsRepository
 let questionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
+let studentRepository: InMemoryStudentRepository
+let attachmentRepository: InMemoryAttachmentsRepository
 let questionRepository: InMemoryQuestionRepository
 let answerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let answersRespository: InMemoryAnswersRepository
@@ -21,7 +25,11 @@ let sendNotificationExecuteSpy
 describe('On question best answer chosen', () => {
   beforeEach(() => {
     questionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository()
+    studentRepository = new InMemoryStudentRepository()
+    attachmentRepository = new InMemoryAttachmentsRepository()
     questionRepository = new InMemoryQuestionRepository(
+      studentRepository,
+      attachmentRepository,
       questionAttachmentsRepository,
     )
     notificationsRepository = new InMemoryNotificationsRepository()
@@ -44,7 +52,7 @@ describe('On question best answer chosen', () => {
     await questionRepository.create(question)
 
     const answer = makeAnswer({
-      questionId: question.id,
+      questionId: question.id.toString(),
     })
 
     await answersRespository.create(answer)
