@@ -4,8 +4,20 @@ import {
   AttachmentUncheckedCreateInput,
   AttachmentUpdateManyArgs,
 } from 'generated/prisma/models'
+import { Attachment as PrismaAttachment } from 'generated/prisma/client'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 export class PrismaAttachmentMapper {
+  static toDomain(raw: PrismaAttachment) {
+    return Attachment.create(
+      {
+        title: raw.title,
+        url: raw.url,
+      },
+      new UniqueEntityId(raw.id),
+    )
+  }
+
   static toPrisma(attachment: Attachment): AttachmentUncheckedCreateInput {
     return {
       id: attachment.id.toString(),

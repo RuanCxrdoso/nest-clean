@@ -3,13 +3,17 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { AttachmentFactory } from 'test/factories/make-attachment'
 import { QuestionFactory } from 'test/factories/make-question'
+import { QuestionAttachmentFactory } from 'test/factories/make-question-attachment'
 import { StudentFactory } from 'test/factories/make-student'
 
 describe('Find Question by slug [E2E]', () => {
   let app: INestApplication
   let studentFactory: StudentFactory
   let questionFactory: QuestionFactory
+  let attachmentFactory: AttachmentFactory
+  let questionAttachmentFactory: QuestionAttachmentFactory
   let jwt: JwtService
 
   beforeAll(async () => {
@@ -20,7 +24,12 @@ describe('Find Question by slug [E2E]', () => {
 
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [StudentFactory, QuestionFactory],
+      providers: [
+        StudentFactory,
+        QuestionFactory,
+        AttachmentFactory,
+        QuestionAttachmentFactory,
+      ],
     }).compile()
 
     app = moduleRef.createNestApplication()
@@ -28,6 +37,8 @@ describe('Find Question by slug [E2E]', () => {
     jwt = moduleRef.get(JwtService)
     studentFactory = moduleRef.get(StudentFactory)
     questionFactory = moduleRef.get(QuestionFactory)
+    attachmentFactory = moduleRef.get(AttachmentFactory)
+    questionAttachmentFactory = moduleRef.get(QuestionAttachmentFactory)
 
     await app.init()
   })
@@ -37,25 +48,42 @@ describe('Find Question by slug [E2E]', () => {
   })
 
   test('[GET] /questions/:slug', async () => {
-    const student = await studentFactory.makePrismaStudent()
+    const student = await studentFactory.makePrismaStudent({
+      name: 'Ibrahimovic',
+    })
 
-    await questionFactory.makePrismaQuestion({
+    const accessToken = jwt.sign({ sub: student.id.toString() })
+
+    const question = await questionFactory.makePrismaQuestion({
       authorId: student.id,
       title: 'Title-1',
       slug: Slug.create('title-1'),
     })
 
-    const accessToken = jwt.sign({ sub: student.id.toString() })
+    const attachment = await attachmentFactory.makePrismaAttachment({
+      title: 'Some attachment',
+    })
+
+    await questionAttachmentFactory.makePrismaQuestionAttachment({
+      attachmentId: attachment.id,
+      questionId: question.id,
+    })
 
     const response = await request(app.getHttpServer())
       .get(`/questions/title-1`)
       .set('Authorization', `Bearer ${accessToken}`)
 
     expect(response.statusCode).toBe(200)
-    expect(response.body.question).toEqual(
-      expect.objectContaining({
-        slug: 'title-1',
+    expect(response.body).toEqual({
+      question: expect.objectContaining({
+        title: 'Title-1',
+        author: 'Ibrahimovic',
+        attachments: [
+          expect.objectContaining({
+            title: 'Some attachment',
+          }),
+        ],
       }),
-    )
+    })
   })
 })

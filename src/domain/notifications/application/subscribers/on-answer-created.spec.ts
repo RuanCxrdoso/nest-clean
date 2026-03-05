@@ -8,6 +8,8 @@ import { SendNotificationUseCase } from '../use-cases/send-notification'
 import { InMemoryNotificationsRepository } from '../../../../../test/repositories/in-memory-notifications-repository'
 import { InMemoryQuestionAttachmentsRepository } from '../../../../../test/repositories/in-memory-question-attachments-repository'
 import { makeQuestion } from '../../../../../test/factories/make-question'
+import { InMemoryStudentRepository } from 'test/repositories/in-memory-student-repository'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
 let sendNotificationUseCase: SendNotificationUseCase
 let notificationsRepository: InMemoryNotificationsRepository
@@ -15,13 +17,18 @@ let questionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let questionRepository: InMemoryQuestionRepository
 let answerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let answersRespository: InMemoryAnswersRepository
-
+let studentsRepository: InMemoryStudentRepository
+let attachmentsRepository: InMemoryAttachmentsRepository
 let sendNotificationExecuteSpy
 
 describe('On answer created', () => {
   beforeEach(() => {
     questionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository()
+    studentsRepository = new InMemoryStudentRepository()
+    attachmentsRepository = new InMemoryAttachmentsRepository()
     questionRepository = new InMemoryQuestionRepository(
+      studentsRepository,
+      attachmentsRepository,
       questionAttachmentsRepository,
     )
     notificationsRepository = new InMemoryNotificationsRepository()
@@ -44,7 +51,7 @@ describe('On answer created', () => {
     await questionRepository.create(question)
 
     const answer = makeAnswer({
-      questionId: question.id,
+      questionId: question.id.toString(),
     })
 
     await answersRespository.create(answer)
