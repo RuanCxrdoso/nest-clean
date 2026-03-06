@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { IQuestionCommentRepository } from '@/domain/forum/application/repositories/question-comment-repository'
 import { QuestionComment } from '@/domain/forum/enterprise/entities/question-comment'
@@ -17,6 +18,8 @@ export class PrismaQuestionCommentsRepository implements IQuestionCommentReposit
     await this.prisma.comment.create({
       data,
     })
+
+    DomainEvents.dispatchEventsForAggregate(questionComment.id)
 
     return questionComment
   }

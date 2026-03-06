@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { IQuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments-repository'
 import { IQuestionRepository } from '@/domain/forum/application/repositories/question-repository'
@@ -51,6 +52,8 @@ export class PrismaQuestionRepository implements IQuestionRepository {
       this.questionAttachmentRepository.createMany(newAttachments),
       this.questionAttachmentRepository.deleteMany(removedAttachments),
     ])
+
+    DomainEvents.dispatchEventsForAggregate(question.id)
   }
 
   async findBySlug(slug: string): Promise<Question | null> {
