@@ -6,7 +6,7 @@ import { Question } from '@/domain/forum/enterprise/entities/question'
 import { QuestionDetails } from '@/domain/forum/enterprise/entities/value-objects/question-details'
 import { ICacheRepository } from '@/infra/cache/cache-repository'
 import { PrismaQuestionMapper } from '@/infra/database/prisma/mappers/prisma-question-mapper'
-import { QuestionWithDetailsMapper } from '@/infra/database/prisma/mappers/prisma-question-with-details-mapper'
+import { PrismaQuestionDetailsMapper } from '@/infra/database/prisma/mappers/prisma-question-with-details-mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
 
@@ -80,7 +80,7 @@ export class PrismaQuestionRepository implements IQuestionRepository {
     if (cacheHit) {
       const cachedData = JSON.parse(cacheHit)
 
-      return cachedData
+      return PrismaQuestionDetailsMapper.toDomain(cachedData)
     }
 
     const question = await this.prisma.question.findUnique({
@@ -97,14 +97,14 @@ export class PrismaQuestionRepository implements IQuestionRepository {
       throw new Error(`Question with slug '${slug}' not found.`)
     }
 
-    const questionDetails = QuestionWithDetailsMapper.toDomain(question)
-
     // Armazena em cache no Redis
     await this.cache.set(
       `question:${slug}:details`,
-      JSON.stringify(questionDetails),
+      JSON.stringify(question),
       1000 * 60 * 5,
     )
+
+    const questionDetails = PrismaQuestionDetailsMapper.toDomain(question)
 
     return questionDetails
   }
