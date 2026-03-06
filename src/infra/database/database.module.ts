@@ -19,9 +19,10 @@ import { IAttachmentsRepository } from '@/domain/forum/application/repositories/
 import { PrismaAttachmentRepository } from '@/infra/database/prisma/repositories/prisma-attachment-repository'
 import { INotificationsRepository } from '@/domain/notifications/application/repositories/notifications-repository'
 import { PrismaNotificationsRepository } from '@/infra/database/prisma/repositories/prisma-notifications-repository'
+import { CacheModule } from '@/infra/cache/cache.module'
 
 @Module({
-  imports: [EnvModule],
+  imports: [EnvModule, CacheModule],
   providers: [
     PrismaService,
     {

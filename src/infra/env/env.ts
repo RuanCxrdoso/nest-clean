@@ -6,6 +6,7 @@ export const envSchema = z.object({
   POSTGRES_DB: z.string(),
   DATABASE_URL: z.string(),
   DATABASE_SCHEMA: z.string().default('public'),
+  REDIS_URL: z.url(),
   PORT: z.coerce.number().optional().default(3333),
   JWT_PRIVATE_KEY: z.string(),
   JWT_PUBLIC_KEY: z.string(),
