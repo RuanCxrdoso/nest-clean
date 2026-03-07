@@ -2,8 +2,10 @@ import { DomainEvents } from '@/core/events/domain-events'
 import type { EventHandler } from '@/core/events/event-handler'
 import { IQuestionRepository } from '@/domain/forum/application/repositories/question-repository'
 import { AnswerCreatedEvent } from '@/domain/forum/enterprise/events/answer-created-event'
-import type { SendNotificationUseCase } from '../use-cases/send-notification'
+import { SendNotificationUseCase } from '../use-cases/send-notification'
+import { Injectable } from '@nestjs/common'
 
+@Injectable()
 export class OnAnswerCreated implements EventHandler {
   constructor(
     private questionRepository: IQuestionRepository,
@@ -12,7 +14,7 @@ export class OnAnswerCreated implements EventHandler {
     this.setupSubscriptions()
   }
 
-  setupSubscriptions() {
+  public setupSubscriptions() {
     DomainEvents.register(
       this.sendCreatedNewAnswerEventNotification.bind(this),
       AnswerCreatedEvent.name,

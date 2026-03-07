@@ -1,10 +1,12 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { IQuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments-repository'
 import { IQuestionRepository } from '@/domain/forum/application/repositories/question-repository'
 import { Question } from '@/domain/forum/enterprise/entities/question'
 import { QuestionDetails } from '@/domain/forum/enterprise/entities/value-objects/question-details'
+import { ICacheRepository } from '@/infra/cache/cache-repository'
 import { PrismaQuestionMapper } from '@/infra/database/prisma/mappers/prisma-question-mapper'
-import { QuestionWithDetailsMapper } from '@/infra/database/prisma/mappers/prisma-question-with-details-mapper'
+import { PrismaQuestionDetailsMapper } from '@/infra/database/prisma/mappers/prisma-question-with-details-mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
 
@@ -12,6 +14,7 @@ import { Injectable } from '@nestjs/common'
 export class PrismaQuestionRepository implements IQuestionRepository {
   constructor(
     private prisma: PrismaService,
+    private cache: ICacheRepository,
     private questionAttachmentRepository: IQuestionAttachmentsRepository,
   ) {}
 
@@ -33,6 +36,8 @@ export class PrismaQuestionRepository implements IQuestionRepository {
         id: question.id.toString(),
       },
     })
+
+    await this.cache.delete(`question:${question.slug.value}:details`)
   }
 
   async save(question: Question): Promise<void> {
@@ -50,7 +55,10 @@ export class PrismaQuestionRepository implements IQuestionRepository {
       }),
       this.questionAttachmentRepository.createMany(newAttachments),
       this.questionAttachmentRepository.deleteMany(removedAttachments),
+      this.cache.delete(`question:${question.slug.value}:details`),
     ])
+
+    DomainEvents.dispatchEventsForAggregate(question.id)
   }
 
   async findBySlug(slug: string): Promise<Question | null> {
@@ -66,6 +74,15 @@ export class PrismaQuestionRepository implements IQuestionRepository {
   }
 
   async findBySlugWithDetails(slug: string): Promise<QuestionDetails | null> {
+    const cacheHit = await this.cache.get(`question:${slug}:details`)
+
+    // Se houver algo em cache, retorna imediatamente
+    if (cacheHit) {
+      const cachedData = JSON.parse(cacheHit)
+
+      return PrismaQuestionDetailsMapper.toDomain(cachedData)
+    }
+
     const question = await this.prisma.question.findUnique({
       where: {
         slug,
@@ -80,7 +97,14 @@ export class PrismaQuestionRepository implements IQuestionRepository {
       throw new Error(`Question with slug '${slug}' not found.`)
     }
 
-    const questionDetails = QuestionWithDetailsMapper.toDomain(question)
+    // Armazena em cache no Redis
+    await this.cache.set(
+      `question:${slug}:details`,
+      JSON.stringify(question),
+      1000 * 60 * 5,
+    )
+
+    const questionDetails = PrismaQuestionDetailsMapper.toDomain(question)
 
     return questionDetails
   }
