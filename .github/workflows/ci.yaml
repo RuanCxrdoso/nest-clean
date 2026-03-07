@@ -57,6 +57,8 @@ jobs:
       POSTGRES_DB: forum_api_test
       DATABASE_URL: postgresql://postgres:password@localhost:5432/forum_api_test?schema=public
       DATABASE_SCHEMA: public
+      REDIS_URL: redis://localhost:6379/0
+      REDIS_URL_TEST: redis://localhost:6379/1
       JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
       JWT_PUBLIC_KEY: ${{ secrets.JWT_PUBLIC_KEY }}
       NODE_ENV: test
@@ -72,6 +74,15 @@ jobs:
           - 5432:5432
         options: >-
           --health-cmd="pg_isready -U postgres -d forum_api_test"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5

@@ -11,3 +11,17 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./data/pg:/var/lib/postgresql/data/pgdata
+
+  redis:
+    container_name: nest-clean-redis
+    image: redis:7-alpine
+    ports:
+      - 6379:6379
+    command: redis-server --appendonly yes
+    volumes:
+      - ./data/redis:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5

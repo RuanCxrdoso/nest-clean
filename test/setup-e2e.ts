@@ -3,6 +3,8 @@ import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from 'generated/prisma/client'
 import { execSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
+import { DomainEvents } from '@/core/events/domain-events'
+import { RedisClientType, createClient } from 'redis'
 
 function generateUniqueDatabaseURL(schemaId: string) {
   if (!process.env.DATABASE_URL) {
@@ -19,12 +21,26 @@ function generateUniqueDatabaseURL(schemaId: string) {
 
 const schemaId = randomUUID()
 let prisma: PrismaClient
+let redis: RedisClientType
 
 beforeAll(async () => {
   const databaseUrl = generateUniqueDatabaseURL(schemaId)
 
   process.env.DATABASE_URL = databaseUrl
   process.env.DATABASE_SCHEMA = schemaId
+
+  const envRedisUrl = process.env.REDIS_URL_TEST
+
+  if (!envRedisUrl) {
+    throw new Error('Please provide a REDIS_URL environment variable')
+  }
+
+  redis = createClient({
+    url: envRedisUrl,
+  })
+
+  await redis.connect()
+  await redis.flushDb()
 
   const adapter = new PrismaPg(
     {
@@ -36,10 +52,15 @@ beforeAll(async () => {
   )
   prisma = new PrismaClient({ adapter })
 
+  DomainEvents.shouldRun = false
+
   execSync('pnpm prisma migrate deploy')
 })
 
 afterAll(async () => {
   await prisma.$executeRawUnsafe(`DROP SCHEMA IF EXISTS "${schemaId}" CASCADE`)
   await prisma.$disconnect()
+
+  await redis.flushDb()
+  await redis.quit()
 })

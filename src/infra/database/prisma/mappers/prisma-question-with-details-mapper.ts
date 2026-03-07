@@ -12,7 +12,7 @@ type QuestionWithDetails = Question & { author: User } & {
   attachments: PrismaAttachment[]
 }
 
-export class QuestionWithDetailsMapper {
+export class PrismaQuestionDetailsMapper {
   static toDomain(raw: QuestionWithDetails) {
     return QuestionDetails.create({
       questionId: new UniqueEntityId(raw.id),
